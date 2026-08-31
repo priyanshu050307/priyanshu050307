@@ -36,9 +36,7 @@ async function githubRequest(url, options = {}) {
 }
 
 async function fetchProfile() {
-  return githubRequest(
-    `https://api.github.com/users/${username}`
-  );
+  return githubRequest(`https://api.github.com/users/${username}`);
 }
 
 async function fetchRepositories() {
@@ -69,7 +67,7 @@ async function fetchRepositoryLanguages(repo) {
     );
   } catch (error) {
     console.warn(
-      `Could not fetch languages for ${repo.full_name}: ${error.message}`
+      `Language fetch failed for ${repo.full_name}: ${error.message}`
     );
 
     return {};
@@ -79,20 +77,15 @@ async function fetchRepositoryLanguages(repo) {
 async function fetchLanguageStatistics(repositories) {
   const totals = {};
 
-  const languageResults = await Promise.all(
-    repositories.map((repo) =>
-      fetchRepositoryLanguages(repo)
-    )
+  const languageData = await Promise.all(
+    repositories.map(fetchRepositoryLanguages)
   );
 
-  languageResults.forEach((languages) => {
-    Object.entries(languages).forEach(
-      ([language, bytes]) => {
-        totals[language] =
-          (totals[language] || 0) + bytes;
-      }
-    );
-  });
+  for (const languages of languageData) {
+    for (const [language, bytes] of Object.entries(languages)) {
+      totals[language] = (totals[language] || 0) + bytes;
+    }
+  }
 
   const totalBytes = Object.values(totals).reduce(
     (sum, value) => sum + value,
@@ -107,8 +100,7 @@ async function fetchLanguageStatistics(repositories) {
     .map(([language, bytes]) => ({
       language,
       bytes,
-      percentage:
-        (bytes / totalBytes) * 100
+      percentage: (bytes / totalBytes) * 100
     }))
     .sort((a, b) => b.bytes - a.bytes)
     .slice(0, 6);
@@ -118,9 +110,7 @@ async function fetchContributions() {
   const today = new Date();
 
   const from = new Date(today);
-  from.setUTCFullYear(
-    from.getUTCFullYear() - 1
-  );
+  from.setUTCFullYear(from.getUTCFullYear() - 1);
   from.setUTCHours(0, 0, 0, 0);
 
   const to = new Date(today);
@@ -187,7 +177,7 @@ async function fetchContributions() {
 
   if (!calendar) {
     throw new Error(
-      "Contribution calendar was not returned."
+      "GitHub contribution calendar was not returned."
     );
   }
 
@@ -197,31 +187,32 @@ async function fetchContributions() {
 function flattenContributionDays(calendar) {
   return calendar.weeks
     .flatMap((week) => week.contributionDays)
-    .sort((a, b) =>
-      a.date.localeCompare(b.date)
-    );
+    .sort((a, b) => a.date.localeCompare(b.date));
 }
 
-function differenceInDays(start, end) {
-  const first = new Date(
-    `${start}T00:00:00Z`
-  );
-
-  const second = new Date(
-    `${end}T00:00:00Z`
-  );
+function differenceInDays(startDate, endDate) {
+  const start = new Date(`${startDate}T00:00:00Z`);
+  const end = new Date(`${endDate}T00:00:00Z`);
 
   return Math.round(
-    (second - first) / 86400000
+    (end - start) / 86400000
   );
+}
+
+function getIndiaDateString() {
+  return new Intl.DateTimeFormat("en-CA", {
+    timeZone: "Asia/Kolkata",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit"
+  }).format(new Date());
 }
 
 function calculateStreaks(days) {
   const activeDays = days
-    .filter(
-      (day) => day.contributionCount > 0
-    )
-    .map((day) => day.date);
+    .filter((day) => day.contributionCount > 0)
+    .map((day) => day.date)
+    .sort();
 
   if (activeDays.length === 0) {
     return {
@@ -241,6 +232,7 @@ function calculateStreaks(days) {
       ) === 1
     ) {
       runningStreak++;
+
       longestStreak = Math.max(
         longestStreak,
         runningStreak
@@ -250,17 +242,14 @@ function calculateStreaks(days) {
     }
   }
 
-  const today = new Date()
-    .toISOString()
-    .slice(0, 10);
+  const today = getIndiaDateString();
 
-  const yesterday = new Date();
-
-  yesterday.setUTCDate(
-    yesterday.getUTCDate() - 1
+  const yesterdayDate = new Date(`${today}T00:00:00Z`);
+  yesterdayDate.setUTCDate(
+    yesterdayDate.getUTCDate() - 1
   );
 
-  const yesterdayString = yesterday
+  const yesterday = yesterdayDate
     .toISOString()
     .slice(0, 10);
 
@@ -268,18 +257,14 @@ function calculateStreaks(days) {
 
   if (activeDays.includes(today)) {
     anchor = today;
-  } else if (
-    activeDays.includes(yesterdayString)
-  ) {
-    anchor = yesterdayString;
+  } else if (activeDays.includes(yesterday)) {
+    anchor = yesterday;
   }
 
   let currentStreak = 0;
 
   if (anchor) {
-    let index =
-      activeDays.indexOf(anchor);
-
+    let index = activeDays.indexOf(anchor);
     currentStreak = 1;
 
     while (
@@ -309,14 +294,12 @@ function escapeXML(value) {
     .replace(/'/g, "&apos;");
 }
 
-function shortRepositoryName(name) {
-  const max = 24;
-
-  if (name.length <= max) {
+function shortName(name, maxLength = 27) {
+  if (name.length <= maxLength) {
     return name;
   }
 
-  return `${name.slice(0, max - 3)}...`;
+  return `${name.slice(0, maxLength - 3)}...`;
 }
 
 function languageColor(language) {
@@ -335,7 +318,9 @@ function languageColor(language) {
     Go: "#00ADD8",
     Rust: "#dea584",
     PHP: "#4F5D95",
-    C: "#555555"
+    C: "#555555",
+    "Jupyter Notebook": "#DA5B0B",
+    TeX: "#3D6117"
   };
 
   return colors[language] || "#8b949e";
@@ -353,7 +338,7 @@ function contributionColor(count, maxCount) {
     return "#0e4429";
   }
 
-  if (ratio <= 0.50) {
+  if (ratio <= 0.5) {
     return "#006d32";
   }
 
@@ -365,10 +350,7 @@ function contributionColor(count, maxCount) {
 }
 
 function buildContributionHeatmap(calendar) {
-  const weeks = calendar.weeks;
-
-  const allDays =
-    flattenContributionDays(calendar);
+  const allDays = flattenContributionDays(calendar);
 
   const maxCount = Math.max(
     ...allDays.map(
@@ -377,24 +359,23 @@ function buildContributionHeatmap(calendar) {
     1
   );
 
-  const startX = 145;
-  const startY = 500;
+  const startX = 130;
+  const startY = 515;
 
-  const cellSize = 10;
+  const cellSize = 11;
   const gap = 4;
   const step = cellSize + gap;
 
   let cells = "";
+  let monthLabels = "";
 
-  weeks.forEach((week, weekIndex) => {
+  calendar.weeks.forEach((week, weekIndex) => {
     week.contributionDays.forEach((day) => {
       const x =
-        startX +
-        weekIndex * step;
+        startX + weekIndex * step;
 
       const y =
-        startY +
-        day.weekday * step;
+        startY + day.weekday * step;
 
       cells += `
         <rect
@@ -402,7 +383,7 @@ function buildContributionHeatmap(calendar) {
           y="${y}"
           width="${cellSize}"
           height="${cellSize}"
-          rx="2.5"
+          rx="3"
           fill="${contributionColor(
             day.contributionCount,
             maxCount
@@ -415,46 +396,45 @@ function buildContributionHeatmap(calendar) {
         </rect>
       `;
     });
-  });
 
-  let monthLabels = "";
-
-  weeks.forEach((week, index) => {
-    if (index === 0) {
+    if (weekIndex === 0) {
       return;
     }
 
-    const firstDay = week.firstDay;
+    const currentDate =
+      new Date(`${week.firstDay}T00:00:00Z`);
 
-    const date =
-      new Date(`${firstDay}T00:00:00Z`);
-
-    const previous =
+    const previousDate =
       new Date(
-        `${weeks[index - 1].firstDay}T00:00:00Z`
+        `${calendar.weeks[
+          weekIndex - 1
+        ].firstDay}T00:00:00Z`
       );
 
     if (
-      date.getUTCMonth() !==
-      previous.getUTCMonth()
+      currentDate.getUTCMonth() !==
+      previousDate.getUTCMonth()
     ) {
       const monthName =
-        date.toLocaleString("en-US", {
-          month: "short",
-          timeZone: "UTC"
-        });
+        currentDate.toLocaleString(
+          "en-US",
+          {
+            month: "short",
+            timeZone: "UTC"
+          }
+        );
 
       const x =
         startX +
-        index * step;
+        weekIndex * step;
 
       monthLabels += `
         <text
           x="${x}"
-          y="486"
+          y="495"
           fill="#8b949e"
           font-family="monospace"
-          font-size="10">
+          font-size="12">
           ${monthName}
         </text>
       `;
@@ -462,24 +442,30 @@ function buildContributionHeatmap(calendar) {
   });
 
   const weekdayLabels = `
-    <text x="102" y="510"
+    <text
+      x="93"
+      y="527"
       fill="#8b949e"
       font-family="monospace"
-      font-size="9">
+      font-size="10">
       M
     </text>
 
-    <text x="102" y="538"
+    <text
+      x="93"
+      y="557"
       fill="#8b949e"
       font-family="monospace"
-      font-size="9">
+      font-size="10">
       W
     </text>
 
-    <text x="102" y="566"
+    <text
+      x="93"
+      y="587"
       fill="#8b949e"
       font-family="monospace"
-      font-size="9">
+      font-size="10">
       F
     </text>
   `;
@@ -495,11 +481,11 @@ function buildLanguagePanel(languages) {
   if (languages.length === 0) {
     return `
       <text
-        x="55"
-        y="655"
+        x="85"
+        y="745"
         fill="#8b949e"
         font-family="monospace"
-        font-size="12">
+        font-size="14">
         No language data available
       </text>
     `;
@@ -507,15 +493,14 @@ function buildLanguagePanel(languages) {
 
   let output = "";
 
-  const barWidth = 220;
+  const barWidth = 255;
 
   languages.forEach((item, index) => {
-    const y =
-      650 + index * 38;
+    const y = 745 + index * 35;
 
     const width =
       Math.max(
-        4,
+        5,
         (item.percentage / 100) *
           barWidth
       );
@@ -525,41 +510,37 @@ function buildLanguagePanel(languages) {
 
     output += `
       <text
-        x="55"
+        x="85"
         y="${y}"
         fill="#f0f6fc"
         font-family="monospace"
-        font-size="11">
-        ${escapeXML(
-          item.language
-        )}
+        font-size="13">
+        ${escapeXML(item.language)}
       </text>
 
       <rect
-        x="165"
-        y="${y - 10}"
+        x="240"
+        y="${y - 12}"
         width="${barWidth}"
-        height="8"
-        rx="4"
-        fill="#161b22"/>
+        height="10"
+        rx="5"
+        fill="#21262d"/>
 
       <rect
-        x="165"
-        y="${y - 10}"
+        x="240"
+        y="${y - 12}"
         width="${width}"
-        height="8"
-        rx="4"
+        height="10"
+        rx="5"
         fill="${color}"/>
 
       <text
-        x="400"
+        x="510"
         y="${y}"
         fill="#8b949e"
         font-family="monospace"
-        font-size="10">
-        ${item.percentage.toFixed(
-          1
-        )}%
+        font-size="12">
+        ${item.percentage.toFixed(1)}%
       </text>
     `;
   });
@@ -567,10 +548,8 @@ function buildLanguagePanel(languages) {
   return output;
 }
 
-function buildRepositoryPanel(
-  repositories
-) {
-  const filtered =
+function buildRepositoryPanel(repositories) {
+  const selected =
     repositories
       .filter(
         (repo) =>
@@ -595,68 +574,70 @@ function buildRepositoryPanel(
       })
       .slice(0, 4);
 
+  if (selected.length === 0) {
+    return `
+      <text
+        x="610"
+        y="745"
+        fill="#8b949e"
+        font-family="monospace"
+        font-size="14">
+        No public repositories found.
+      </text>
+    `;
+  }
+
   let output = "";
 
-  filtered.forEach((repo, index) => {
+  selected.forEach((repo, index) => {
     const y =
-      650 + index * 55;
+      745 + index * 52;
+
+    const repoName =
+      shortName(repo.name);
 
     const language =
       repo.language || "N/A";
 
-    const stars =
-      repo.stargazers_count;
-
-    const name =
-      shortRepositoryName(
-        repo.name
-      );
-
     output += `
       <text
-        x="545"
+        x="610"
         y="${y}"
         fill="#58a6ff"
         font-family="monospace"
-        font-size="12"
+        font-size="14"
         font-weight="700">
-        ${escapeXML(name)}
+        ${escapeXML(repoName)}
       </text>
 
       <text
-        x="545"
-        y="${y + 18}"
+        x="610"
+        y="${y + 21}"
         fill="#8b949e"
         font-family="monospace"
-        font-size="9">
-        ${escapeXML(
-          language
-        )} • ★ ${escapeXML(
-      stars
+        font-size="11">
+        ${escapeXML(language)} • ★ ${escapeXML(
+      repo.stargazers_count
     )}
       </text>
 
+      <text
+        x="955"
+        y="${y + 21}"
+        fill="#6e7681"
+        font-family="monospace"
+        font-size="10">
+        UPDATED
+      </text>
+
       <line
-        x1="545"
-        y1="${y + 30}"
-        x2="1140"
-        y2="${y + 30}"
+        x1="610"
+        y1="${y + 31}"
+        x2="1115"
+        y2="${y + 31}"
         stroke="#21262d"/>
     `;
   });
-
-  if (filtered.length === 0) {
-    output += `
-      <text
-        x="545"
-        y="650"
-        fill="#8b949e"
-        font-family="monospace"
-        font-size="12">
-        No public repositories found
-      </text>
-    `;
-  }
 
   return output;
 }
@@ -676,14 +657,10 @@ function buildDashboard(
     );
 
   const heatmap =
-    buildContributionHeatmap(
-      calendar
-    );
+    buildContributionHeatmap(calendar);
 
   const languagePanel =
-    buildLanguagePanel(
-      languages
-    );
+    buildLanguagePanel(languages);
 
   const repositoryPanel =
     buildRepositoryPanel(
@@ -693,8 +670,8 @@ function buildDashboard(
   return `
 <svg
   width="1200"
-  height="930"
-  viewBox="0 0 1200 930"
+  height="970"
+  viewBox="0 0 1200 970"
   xmlns="http://www.w3.org/2000/svg">
 
   <defs>
@@ -709,22 +686,21 @@ function buildDashboard(
       <stop
         offset="0%"
         stop-color="#58a6ff"
-        stop-opacity="0.22"/>
+        stop-opacity="0.24"/>
 
       <stop
         offset="50%"
         stop-color="#bc8cff"
-        stop-opacity="0.12"/>
+        stop-opacity="0.13"/>
 
       <stop
         offset="100%"
         stop-color="#58a6ff"
         stop-opacity="0"/>
-
     </linearGradient>
 
     <linearGradient
-      id="lineGlow"
+      id="dividerGlow"
       x1="0"
       y1="0"
       x2="1"
@@ -733,13 +709,12 @@ function buildDashboard(
       <stop
         offset="0%"
         stop-color="#58a6ff"
-        stop-opacity="0.8"/>
+        stop-opacity="0.9"/>
 
       <stop
         offset="100%"
         stop-color="#39d353"
-        stop-opacity="0.05"/>
-
+        stop-opacity="0.04"/>
     </linearGradient>
 
   </defs>
@@ -748,7 +723,7 @@ function buildDashboard(
 
   <rect
     width="1200"
-    height="930"
+    height="970"
     rx="24"
     fill="#0d1117"/>
 
@@ -756,7 +731,7 @@ function buildDashboard(
     x="1"
     y="1"
     width="1198"
-    height="928"
+    height="968"
     rx="24"
     fill="none"
     stroke="#30363d"
@@ -768,32 +743,32 @@ function buildDashboard(
     x="25"
     y="25"
     width="1150"
-    height="120"
+    height="125"
     rx="18"
     fill="url(#headerGlow)"/>
 
   <text
-    x="55"
-    y="68"
+    x="58"
+    y="72"
     fill="#f0f6fc"
     font-family="monospace"
-    font-size="30"
+    font-size="32"
     font-weight="700">
     PRIYANSHU.V
   </text>
 
   <text
-    x="55"
-    y="98"
+    x="58"
+    y="103"
     fill="#8b949e"
     font-family="monospace"
-    font-size="14">
+    font-size="15">
     CSE • DATA SCIENCE • MACHINE LEARNING • SOFTWARE
   </text>
 
   <text
-    x="55"
-    y="123"
+    x="58"
+    y="128"
     fill="#6e7681"
     font-family="monospace"
     font-size="11">
@@ -807,8 +782,8 @@ function buildDashboard(
     fill="#39d353"/>
 
   <text
-    x="1072"
-    y="72"
+    x="1073"
+    y="73"
     fill="#39d353"
     font-family="monospace"
     font-size="12">
@@ -816,201 +791,193 @@ function buildDashboard(
   </text>
 
   <line
-    x1="55"
-    y1="145"
-    x2="1145"
-    y2="145"
-    stroke="url(#lineGlow)"/>
+    x1="58"
+    y1="150"
+    x2="1142"
+    y2="150"
+    stroke="url(#dividerGlow)"/>
 
   <!-- PROFILE -->
 
   <text
-    x="55"
-    y="176"
-    fill="#6e7681"
-    font-family="monospace"
-    font-size="11">
-    // GITHUB PROFILE
-  </text>
-
-  <!-- STAT CARD 1 -->
-
-  <rect
-    x="55"
-    y="195"
-    width="255"
-    height="105"
-    rx="14"
-    fill="#161b22"
-    stroke="#21262d"/>
-
-  <text
-    x="75"
-    y="222"
+    x="58"
+    y="182"
     fill="#8b949e"
     font-family="monospace"
-    font-size="10">
+    font-size="13">
+    // GITHUB PROFILE ANALYTICS
+  </text>
+
+  <!-- CARD 1 -->
+
+  <rect
+    x="58"
+    y="200"
+    width="255"
+    height="108"
+    rx="14"
+    fill="#161b22"
+    stroke="#30363d"/>
+
+  <text
+    x="80"
+    y="228"
+    fill="#8b949e"
+    font-family="monospace"
+    font-size="11">
     REPOSITORIES
   </text>
 
   <text
-    x="75"
-    y="270"
+    x="80"
+    y="277"
     fill="#58a6ff"
     font-family="monospace"
-    font-size="36"
+    font-size="38"
     font-weight="700">
-    ${escapeXML(
-      profile.public_repos
-    )}
+    ${escapeXML(profile.public_repos)}
   </text>
 
-  <!-- STAT CARD 2 -->
+  <!-- CARD 2 -->
 
   <rect
-    x="330"
-    y="195"
+    x="328"
+    y="200"
     width="255"
-    height="105"
+    height="108"
     rx="14"
     fill="#161b22"
-    stroke="#21262d"/>
+    stroke="#30363d"/>
 
   <text
     x="350"
-    y="222"
+    y="228"
     fill="#8b949e"
     font-family="monospace"
-    font-size="10">
+    font-size="11">
     CONTRIBUTIONS
   </text>
 
   <text
     x="350"
-    y="270"
+    y="277"
     fill="#39d353"
     font-family="monospace"
-    font-size="36"
+    font-size="38"
     font-weight="700">
     ${escapeXML(
       calendar.totalContributions
     )}
   </text>
 
-  <!-- STAT CARD 3 -->
+  <!-- CARD 3 -->
 
   <rect
-    x="605"
-    y="195"
+    x="598"
+    y="200"
     width="255"
-    height="105"
+    height="108"
     rx="14"
     fill="#161b22"
-    stroke="#21262d"/>
+    stroke="#30363d"/>
 
   <text
-    x="625"
-    y="222"
+    x="620"
+    y="228"
     fill="#8b949e"
     font-family="monospace"
-    font-size="10">
+    font-size="11">
     TOTAL STARS
   </text>
 
   <text
-    x="625"
-    y="270"
+    x="620"
+    y="277"
     fill="#e3b341"
     font-family="monospace"
-    font-size="36"
+    font-size="38"
     font-weight="700">
-    ${escapeXML(
-      totalStars
-    )}
+    ${escapeXML(totalStars)}
   </text>
 
-  <!-- STAT CARD 4 -->
+  <!-- CARD 4 -->
 
   <rect
-    x="880"
-    y="195"
-    width="265"
-    height="105"
+    x="868"
+    y="200"
+    width="274"
+    height="108"
     rx="14"
     fill="#161b22"
-    stroke="#21262d"/>
+    stroke="#30363d"/>
 
   <text
-    x="900"
-    y="222"
+    x="890"
+    y="228"
     fill="#8b949e"
     font-family="monospace"
-    font-size="10">
+    font-size="11">
     FOLLOWERS
   </text>
 
   <text
-    x="900"
-    y="270"
+    x="890"
+    y="277"
     fill="#f85149"
     font-family="monospace"
-    font-size="36"
+    font-size="38"
     font-weight="700">
-    ${escapeXML(
-      profile.followers
-    )}
+    ${escapeXML(profile.followers)}
   </text>
 
   <text
-    x="1015"
-    y="271"
+    x="1000"
+    y="277"
     fill="#8b949e"
     font-family="monospace"
-    font-size="10">
-    / ${escapeXML(
-      profile.following
-    )} FOLLOWING
+    font-size="11">
+    / ${escapeXML(profile.following)} FOLLOWING
   </text>
 
-  <!-- STREAK -->
+  <!-- CONTRIBUTION INTELLIGENCE -->
 
   <line
-    x1="55"
-    y1="330"
-    x2="1145"
-    y2="330"
+    x1="58"
+    y1="334"
+    x2="1142"
+    y2="334"
     stroke="#21262d"/>
 
   <text
-    x="55"
-    y="360"
-    fill="#6e7681"
+    x="58"
+    y="363"
+    fill="#8b949e"
     font-family="monospace"
-    font-size="11">
+    font-size="13">
     // CONTRIBUTION INTELLIGENCE
   </text>
 
   <rect
-    x="55"
-    y="380"
-    width="330"
-    height="72"
+    x="58"
+    y="383"
+    width="315"
+    height="70"
     rx="12"
     fill="#161b22"
-    stroke="#21262d"/>
+    stroke="#30363d"/>
 
   <text
-    x="75"
-    y="405"
+    x="80"
+    y="409"
     fill="#8b949e"
     font-family="monospace"
-    font-size="10">
+    font-size="11">
     CURRENT STREAK
   </text>
 
   <text
-    x="75"
-    y="432"
+    x="80"
+    y="435"
     fill="#f85149"
     font-family="monospace"
     font-size="21"
@@ -1021,26 +988,26 @@ function buildDashboard(
   </text>
 
   <rect
-    x="405"
-    y="380"
-    width="330"
-    height="72"
+    x="398"
+    y="383"
+    width="315"
+    height="70"
     rx="12"
     fill="#161b22"
-    stroke="#21262d"/>
+    stroke="#30363d"/>
 
   <text
-    x="425"
-    y="405"
+    x="420"
+    y="409"
     fill="#8b949e"
     font-family="monospace"
-    font-size="10">
+    font-size="11">
     LONGEST STREAK
   </text>
 
   <text
-    x="425"
-    y="432"
+    x="420"
+    y="435"
     fill="#e3b341"
     font-family="monospace"
     font-size="21"
@@ -1051,179 +1018,179 @@ function buildDashboard(
   </text>
 
   <rect
-    x="755"
-    y="380"
-    width="390"
-    height="72"
+    x="738"
+    y="383"
+    width="404"
+    height="70"
     rx="12"
     fill="#161b22"
-    stroke="#21262d"/>
+    stroke="#30363d"/>
 
   <circle
-    cx="781"
-    cy="416"
+    cx="765"
+    cy="417"
     r="6"
     fill="#39d353"/>
 
   <text
-    x="797"
-    y="421"
+    x="782"
+    y="423"
     fill="#39d353"
     font-family="monospace"
-    font-size="11">
+    font-size="12">
     SYSTEM ONLINE
   </text>
 
   <text
-    x="955"
-    y="421"
+    x="970"
+    y="423"
     fill="#8b949e"
     font-family="monospace"
     font-size="10">
     AUTO-GENERATED
   </text>
 
-  <!-- CONTRIBUTION HEATMAP -->
+  <!-- CONTRIBUTION MATRIX -->
 
   <text
-    x="55"
-    y="477"
-    fill="#6e7681"
+    x="58"
+    y="480"
+    fill="#8b949e"
     font-family="monospace"
-    font-size="11">
+    font-size="13">
     // CONTRIBUTION MATRIX • LAST 12 MONTHS
   </text>
 
   ${heatmap}
 
-  <!-- LEGEND -->
+  <!-- CONTRIBUTION LEGEND -->
 
   <text
-    x="930"
-    y="600"
+    x="920"
+    y="615"
     fill="#8b949e"
     font-family="monospace"
-    font-size="9">
+    font-size="10">
     LESS
   </text>
 
   <rect
-    x="965"
-    y="591"
-    width="10"
-    height="10"
-    rx="2"
+    x="960"
+    y="604"
+    width="12"
+    height="12"
+    rx="3"
     fill="#161b22"/>
 
   <rect
-    x="981"
-    y="591"
-    width="10"
-    height="10"
-    rx="2"
+    x="978"
+    y="604"
+    width="12"
+    height="12"
+    rx="3"
     fill="#0e4429"/>
 
   <rect
-    x="997"
-    y="591"
-    width="10"
-    height="10"
-    rx="2"
+    x="996"
+    y="604"
+    width="12"
+    height="12"
+    rx="3"
     fill="#006d32"/>
 
   <rect
-    x="1013"
-    y="591"
-    width="10"
-    height="10"
-    rx="2"
+    x="1014"
+    y="604"
+    width="12"
+    height="12"
+    rx="3"
     fill="#26a641"/>
 
   <rect
-    x="1029"
-    y="591"
-    width="10"
-    height="10"
-    rx="2"
+    x="1032"
+    y="604"
+    width="12"
+    height="12"
+    rx="3"
     fill="#39d353"/>
 
   <text
-    x="1047"
-    y="600"
+    x="1053"
+    y="615"
     fill="#8b949e"
     font-family="monospace"
-    font-size="9">
+    font-size="10">
     MORE
   </text>
 
   <!-- LOWER PANELS -->
 
   <line
-    x1="55"
-    y1="625"
-    x2="1145"
-    y2="625"
+    x1="58"
+    y1="650"
+    x2="1142"
+    y2="650"
     stroke="#21262d"/>
 
-  <!-- LANGUAGES -->
+  <!-- LANGUAGE PANEL -->
 
   <rect
-    x="55"
-    y="645"
-    width="465"
-    height="235"
+    x="58"
+    y="675"
+    width="505"
+    height="240"
     rx="14"
     fill="#161b22"
-    stroke="#21262d"/>
+    stroke="#30363d"/>
 
   <text
-    x="80"
-    y="676"
+    x="85"
+    y="708"
     fill="#f0f6fc"
     font-family="monospace"
-    font-size="13"
+    font-size="16"
     font-weight="700">
     LANGUAGE ANALYTICS
   </text>
 
   <text
-    x="80"
-    y="696"
+    x="85"
+    y="730"
     fill="#6e7681"
     font-family="monospace"
-    font-size="9">
-    AGGREGATED FROM REPOSITORIES
+    font-size="10">
+    AGGREGATED FROM REPOSITORY CODE
   </text>
 
   ${languagePanel}
 
-  <!-- PROJECTS -->
+  <!-- PROJECT PANEL -->
 
   <rect
-    x="545"
-    y="645"
-    width="600"
-    height="235"
+    x="588"
+    y="675"
+    width="554"
+    height="240"
     rx="14"
     fill="#161b22"
-    stroke="#21262d"/>
+    stroke="#30363d"/>
 
   <text
-    x="570"
-    y="676"
+    x="615"
+    y="708"
     fill="#f0f6fc"
     font-family="monospace"
-    font-size="13"
+    font-size="16"
     font-weight="700">
     PROJECT HIGHLIGHTS
   </text>
 
   <text
-    x="570"
-    y="696"
+    x="615"
+    y="730"
     fill="#6e7681"
     font-family="monospace"
-    font-size="9">
+    font-size="10">
     TOP PUBLIC REPOSITORIES
   </text>
 
@@ -1232,18 +1199,18 @@ function buildDashboard(
   <!-- FOOTER -->
 
   <line
-    x1="55"
-    y1="900"
-    x2="1145"
-    y2="900"
+    x1="58"
+    y1="940"
+    x2="1142"
+    y2="940"
     stroke="#21262d"/>
 
   <text
-    x="55"
-    y="920"
+    x="58"
+    y="958"
     fill="#39d353"
     font-family="monospace"
-    font-size="9">
+    font-size="10">
     &gt; LIVE GITHUB DATA • UPDATED DAILY • PRIYANSHU.V
   </text>
 
@@ -1267,7 +1234,7 @@ async function main() {
   ]);
 
   console.log(
-    `Repositories loaded: ${repositories.length}`
+    `Loaded ${repositories.length} repositories.`
   );
 
   const languages =
@@ -1285,7 +1252,6 @@ async function main() {
       contributionDays
     );
 
-  console.log("Dashboard statistics:");
   console.log({
     repositories:
       profile.public_repos,
@@ -1293,19 +1259,18 @@ async function main() {
       profile.followers,
     following:
       profile.following,
+    stars:
+      repositories.reduce(
+        (sum, repo) =>
+          sum + repo.stargazers_count,
+        0
+      ),
     contributions:
       calendar.totalContributions,
     currentStreak:
       streaks.currentStreak,
     longestStreak:
-      streaks.longestStreak,
-    languages:
-      languages.map(
-        (item) =>
-          `${item.language}: ${item.percentage.toFixed(
-            1
-          )}%`
-      )
+      streaks.longestStreak
   });
 
   const dashboard =
@@ -1317,22 +1282,23 @@ async function main() {
       languages
     );
 
-  const outputDir =
+  const outputDirectory =
     path.join(
       __dirname,
       "..",
       "assets"
     );
 
-  if (!fs.existsSync(outputDir)) {
-    fs.mkdirSync(outputDir, {
-      recursive: true
-    });
+  if (!fs.existsSync(outputDirectory)) {
+    fs.mkdirSync(
+      outputDirectory,
+      { recursive: true }
+    );
   }
 
   const outputPath =
     path.join(
-      outputDir,
+      outputDirectory,
       "dashboard.svg"
     );
 
@@ -1343,7 +1309,7 @@ async function main() {
   );
 
   console.log(
-    `Dashboard successfully written to ${outputPath}`
+    `Dashboard generated successfully: ${outputPath}`
   );
 }
 
