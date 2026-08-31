@@ -1,16 +1,32 @@
-## Hi there 👋
+<div align="center">
 
-<!--
-**priyanshu050307/priyanshu050307** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
+# 👋 Hey, I'm Priyanshu Vishwakarma
 
-Here are some ideas to get you started:
+### `B.Tech CSE Student` • `Data Science` • `Machine Learning` • `Problem Solver`
 
-- 🔭 I’m currently working on ...
-- 🌱 I’m currently learning ...
-- 👯 I’m looking to collaborate on ...
-- 🤔 I’m looking for help with ...
-- 💬 Ask me about ...
-- 📫 How to reach me: ...
-- 😄 Pronouns: ...
-- ⚡ Fun fact: ...
--->
+<p>
+  <a href="https://github.com/priyanshu050307">
+    <img src="https://komarev.com/ghpvc/?username=priyanshu050307&label=PROFILE+VIEWS&color=0e75b6&style=flat" />
+  </a>
+</p>
+
+</div>
+
+---
+
+## 🧠 SYSTEM.INFO
+
+```yaml
+Name: Priyanshu Vishwakarma
+Role: Computer Science Student
+University: Lovely Professional University
+Focus:
+  - Data Structures & Algorithms
+  - Data Science
+  - Machine Learning
+  - Software Development
+
+Currently:
+  Learning: Machine Learning & Advanced DSA
+  Building: Real-world Projects
+  Goal: Become a Strong Software & ML Engineer
