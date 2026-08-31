@@ -1,7 +1,7 @@
 <svg
-  width="1100"
-  height="640"
-  viewBox="0 0 1100 640"
+  width="1200"
+  height="930"
+  viewBox="0 0 1200 930"
   xmlns="http://www.w3.org/2000/svg">
 
   <defs>
@@ -16,12 +16,12 @@
       <stop
         offset="0%"
         stop-color="#58a6ff"
-        stop-opacity="0.25"/>
+        stop-opacity="0.22"/>
 
       <stop
         offset="50%"
         stop-color="#bc8cff"
-        stop-opacity="0.10"/>
+        stop-opacity="0.12"/>
 
       <stop
         offset="100%"
@@ -30,41 +30,58 @@
 
     </linearGradient>
 
+    <linearGradient
+      id="lineGlow"
+      x1="0"
+      y1="0"
+      x2="1"
+      y2="0">
+
+      <stop
+        offset="0%"
+        stop-color="#58a6ff"
+        stop-opacity="0.8"/>
+
+      <stop
+        offset="100%"
+        stop-color="#39d353"
+        stop-opacity="0.05"/>
+
+    </linearGradient>
+
   </defs>
 
   <!-- BACKGROUND -->
 
   <rect
-    width="1100"
-    height="640"
-    rx="22"
+    width="1200"
+    height="930"
+    rx="24"
     fill="#0d1117"/>
 
   <rect
     x="1"
     y="1"
-    width="1098"
-    height="638"
-    rx="22"
+    width="1198"
+    height="928"
+    rx="24"
     fill="none"
     stroke="#30363d"
     stroke-width="2"/>
 
-  <!-- HEADER GLOW -->
+  <!-- HEADER -->
 
   <rect
     x="25"
     y="25"
-    width="1050"
-    height="115"
-    rx="16"
+    width="1150"
+    height="120"
+    rx="18"
     fill="url(#headerGlow)"/>
-
-  <!-- HEADER -->
 
   <text
     x="55"
-    y="70"
+    y="68"
     fill="#f0f6fc"
     font-family="monospace"
     font-size="30"
@@ -74,69 +91,78 @@
 
   <text
     x="55"
-    y="101"
+    y="98"
     fill="#8b949e"
     font-family="monospace"
     font-size="14">
-    CSE STUDENT • DATA SCIENCE • MACHINE LEARNING • BUILDER
+    CSE • DATA SCIENCE • MACHINE LEARNING • SOFTWARE
+  </text>
+
+  <text
+    x="55"
+    y="123"
+    fill="#6e7681"
+    font-family="monospace"
+    font-size="11">
+    github.com/priyanshu050307
   </text>
 
   <circle
-    cx="955"
-    cy="65"
+    cx="1055"
+    cy="67"
     r="7"
-    fill="#3fb950"/>
+    fill="#39d353"/>
 
   <text
-    x="975"
-    y="70"
-    fill="#3fb950"
+    x="1072"
+    y="72"
+    fill="#39d353"
     font-family="monospace"
-    font-size="13">
+    font-size="12">
     BUILDING
   </text>
 
   <line
     x1="55"
-    y1="130"
-    x2="1045"
-    y2="130"
-    stroke="#30363d"/>
+    y1="145"
+    x2="1145"
+    y2="145"
+    stroke="url(#lineGlow)"/>
 
-  <!-- PROFILE ANALYTICS -->
+  <!-- PROFILE -->
 
   <text
     x="55"
-    y="165"
-    fill="#8b949e"
+    y="176"
+    fill="#6e7681"
     font-family="monospace"
-    font-size="12">
-    GITHUB // PROFILE ANALYTICS
+    font-size="11">
+    // GITHUB PROFILE
   </text>
 
-  <!-- CARD 1 -->
+  <!-- STAT CARD 1 -->
 
   <rect
     x="55"
-    y="185"
-    width="225"
+    y="195"
+    width="255"
     height="105"
-    rx="12"
+    rx="14"
     fill="#161b22"
     stroke="#21262d"/>
 
   <text
     x="75"
-    y="217"
+    y="222"
     fill="#8b949e"
     font-family="monospace"
-    font-size="11">
+    font-size="10">
     REPOSITORIES
   </text>
 
   <text
     x="75"
-    y="264"
+    y="270"
     fill="#58a6ff"
     font-family="monospace"
     font-size="36"
@@ -144,59 +170,59 @@
     24
   </text>
 
-  <!-- CARD 2 -->
+  <!-- STAT CARD 2 -->
 
   <rect
-    x="295"
-    y="185"
-    width="225"
+    x="330"
+    y="195"
+    width="255"
     height="105"
-    rx="12"
+    rx="14"
     fill="#161b22"
     stroke="#21262d"/>
 
   <text
-    x="315"
-    y="217"
+    x="350"
+    y="222"
     fill="#8b949e"
     font-family="monospace"
-    font-size="11">
+    font-size="10">
     CONTRIBUTIONS
   </text>
 
   <text
-    x="315"
-    y="264"
+    x="350"
+    y="270"
     fill="#39d353"
     font-family="monospace"
     font-size="36"
     font-weight="700">
-    164
+    166
   </text>
 
-  <!-- CARD 3 -->
+  <!-- STAT CARD 3 -->
 
   <rect
-    x="535"
-    y="185"
-    width="225"
+    x="605"
+    y="195"
+    width="255"
     height="105"
-    rx="12"
+    rx="14"
     fill="#161b22"
     stroke="#21262d"/>
 
   <text
-    x="555"
-    y="217"
+    x="625"
+    y="222"
     fill="#8b949e"
     font-family="monospace"
-    font-size="11">
-    STARS
+    font-size="10">
+    TOTAL STARS
   </text>
 
   <text
-    x="555"
-    y="264"
+    x="625"
+    y="270"
     fill="#e3b341"
     font-family="monospace"
     font-size="36"
@@ -204,29 +230,29 @@
     20
   </text>
 
-  <!-- CARD 4 -->
+  <!-- STAT CARD 4 -->
 
   <rect
-    x="775"
-    y="185"
-    width="270"
+    x="880"
+    y="195"
+    width="265"
     height="105"
-    rx="12"
+    rx="14"
     fill="#161b22"
     stroke="#21262d"/>
 
   <text
-    x="795"
-    y="217"
+    x="900"
+    y="222"
     fill="#8b949e"
     font-family="monospace"
-    font-size="11">
+    font-size="10">
     FOLLOWERS
   </text>
 
   <text
-    x="795"
-    y="264"
+    x="900"
+    y="270"
     fill="#f85149"
     font-family="monospace"
     font-size="36"
@@ -235,46 +261,44 @@
   </text>
 
   <text
-    x="960"
-    y="265"
+    x="1015"
+    y="271"
     fill="#8b949e"
     font-family="monospace"
-    font-size="11">
+    font-size="10">
     / 2 FOLLOWING
-  </text>
-
-  <!-- CONTRIBUTION SECTION -->
-
-  <line
-    x1="55"
-    y1="320"
-    x2="1045"
-    y2="320"
-    stroke="#30363d"/>
-
-  <text
-    x="55"
-    y="350"
-    fill="#8b949e"
-    font-family="monospace"
-    font-size="12">
-    CONTRIBUTION // ACTIVITY
   </text>
 
   <!-- STREAK -->
 
+  <line
+    x1="55"
+    y1="330"
+    x2="1145"
+    y2="330"
+    stroke="#21262d"/>
+
+  <text
+    x="55"
+    y="360"
+    fill="#6e7681"
+    font-family="monospace"
+    font-size="11">
+    // CONTRIBUTION INTELLIGENCE
+  </text>
+
   <rect
     x="55"
-    y="365"
-    width="255"
-    height="55"
-    rx="10"
+    y="380"
+    width="330"
+    height="72"
+    rx="12"
     fill="#161b22"
     stroke="#21262d"/>
 
   <text
-    x="72"
-    y="387"
+    x="75"
+    y="405"
     fill="#8b949e"
     font-family="monospace"
     font-size="10">
@@ -282,29 +306,27 @@
   </text>
 
   <text
-    x="72"
-    y="407"
+    x="75"
+    y="432"
     fill="#f85149"
     font-family="monospace"
-    font-size="18"
+    font-size="21"
     font-weight="700">
     1 DAYS
   </text>
 
-  <!-- BEST STREAK -->
-
   <rect
-    x="325"
-    y="365"
-    width="255"
-    height="55"
-    rx="10"
+    x="405"
+    y="380"
+    width="330"
+    height="72"
+    rx="12"
     fill="#161b22"
     stroke="#21262d"/>
 
   <text
-    x="342"
-    y="387"
+    x="425"
+    y="405"
     fill="#8b949e"
     font-family="monospace"
     font-size="10">
@@ -312,4094 +334,3859 @@
   </text>
 
   <text
-    x="342"
-    y="407"
+    x="425"
+    y="432"
     fill="#e3b341"
     font-family="monospace"
-    font-size="18"
+    font-size="21"
     font-weight="700">
     7 DAYS
   </text>
 
-  <!-- STATUS -->
-
   <rect
-    x="595"
-    y="365"
-    width="450"
-    height="55"
-    rx="10"
+    x="755"
+    y="380"
+    width="390"
+    height="72"
+    rx="12"
     fill="#161b22"
     stroke="#21262d"/>
 
   <circle
-    cx="620"
-    cy="393"
+    cx="781"
+    cy="416"
     r="6"
     fill="#39d353"/>
 
   <text
-    x="637"
-    y="398"
+    x="797"
+    y="421"
     fill="#39d353"
     font-family="monospace"
-    font-size="12">
+    font-size="11">
     SYSTEM ONLINE
   </text>
 
   <text
-    x="805"
-    y="398"
+    x="955"
+    y="421"
     fill="#8b949e"
     font-family="monospace"
-    font-size="11">
+    font-size="10">
     AUTO-GENERATED
   </text>
 
-  <!-- HEATMAP -->
+  <!-- CONTRIBUTION HEATMAP -->
 
   <text
     x="55"
-    y="448"
-    fill="#8b949e"
+    y="477"
+    fill="#6e7681"
     font-family="monospace"
-    font-size="12">
-    CONTRIBUTION MATRIX // LAST 12 MONTHS
+    font-size="11">
+    // CONTRIBUTION MATRIX • LAST 12 MONTHS
   </text>
 
   
+    
+        <text
+          x="159"
+          y="486"
+          fill="#8b949e"
+          font-family="monospace"
+          font-size="10">
+          Sep
+        </text>
+      
+        <text
+          x="215"
+          y="486"
+          fill="#8b949e"
+          font-family="monospace"
+          font-size="10">
+          Oct
+        </text>
+      
+        <text
+          x="271"
+          y="486"
+          fill="#8b949e"
+          font-family="monospace"
+          font-size="10">
+          Nov
+        </text>
+      
+        <text
+          x="341"
+          y="486"
+          fill="#8b949e"
+          font-family="monospace"
+          font-size="10">
+          Dec
+        </text>
+      
+        <text
+          x="397"
+          y="486"
+          fill="#8b949e"
+          font-family="monospace"
+          font-size="10">
+          Jan
+        </text>
+      
+        <text
+          x="453"
+          y="486"
+          fill="#8b949e"
+          font-family="monospace"
+          font-size="10">
+          Feb
+        </text>
+      
+        <text
+          x="509"
+          y="486"
+          fill="#8b949e"
+          font-family="monospace"
+          font-size="10">
+          Mar
+        </text>
+      
+        <text
+          x="579"
+          y="486"
+          fill="#8b949e"
+          font-family="monospace"
+          font-size="10">
+          Apr
+        </text>
+      
+        <text
+          x="635"
+          y="486"
+          fill="#8b949e"
+          font-family="monospace"
+          font-size="10">
+          May
+        </text>
+      
+        <text
+          x="705"
+          y="486"
+          fill="#8b949e"
+          font-family="monospace"
+          font-size="10">
+          Jun
+        </text>
+      
+        <text
+          x="761"
+          y="486"
+          fill="#8b949e"
+          font-family="monospace"
+          font-size="10">
+          Jul
+        </text>
+      
+        <text
+          x="817"
+          y="486"
+          fill="#8b949e"
+          font-family="monospace"
+          font-size="10">
+          Aug
+        </text>
+      
+    
+    <text x="102" y="510"
+      fill="#8b949e"
+      font-family="monospace"
+      font-size="9">
+      M
+    </text>
+
+    <text x="102" y="538"
+      fill="#8b949e"
+      font-family="monospace"
+      font-size="9">
+      W
+    </text>
+
+    <text x="102" y="566"
+      fill="#8b949e"
+      font-family="monospace"
+      font-size="9">
+      F
+    </text>
+  
+    
         <rect
-          x="62"
-          y="430"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="145"
+          y="500"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2025-08-31: 0 contributions</title>
         </rect>
       
         <rect
-          x="62"
-          y="444"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="145"
+          y="514"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2025-09-01: 0 contributions</title>
         </rect>
       
         <rect
-          x="62"
-          y="458"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="145"
+          y="528"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2025-09-02: 0 contributions</title>
         </rect>
       
         <rect
-          x="62"
-          y="472"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="145"
+          y="542"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2025-09-03: 0 contributions</title>
         </rect>
       
         <rect
-          x="62"
-          y="486"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="145"
+          y="556"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2025-09-04: 0 contributions</title>
         </rect>
       
         <rect
-          x="62"
-          y="500"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="145"
+          y="570"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2025-09-05: 0 contributions</title>
         </rect>
       
         <rect
-          x="62"
-          y="514"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="145"
+          y="584"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2025-09-06: 0 contributions</title>
         </rect>
       
         <rect
-          x="76"
-          y="430"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="159"
+          y="500"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2025-09-07: 0 contributions</title>
         </rect>
       
         <rect
-          x="76"
-          y="444"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="159"
+          y="514"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2025-09-08: 0 contributions</title>
         </rect>
       
         <rect
-          x="76"
-          y="458"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="159"
+          y="528"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2025-09-09: 0 contributions</title>
         </rect>
       
         <rect
-          x="76"
-          y="472"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="159"
+          y="542"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2025-09-10: 0 contributions</title>
         </rect>
       
         <rect
-          x="76"
-          y="486"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="159"
+          y="556"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2025-09-11: 0 contributions</title>
         </rect>
       
         <rect
-          x="76"
-          y="500"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="159"
+          y="570"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2025-09-12: 0 contributions</title>
         </rect>
       
         <rect
-          x="76"
-          y="514"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="159"
+          y="584"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2025-09-13: 0 contributions</title>
         </rect>
       
         <rect
-          x="90"
-          y="430"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="173"
+          y="500"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2025-09-14: 0 contributions</title>
         </rect>
       
         <rect
-          x="90"
-          y="444"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="173"
+          y="514"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2025-09-15: 0 contributions</title>
         </rect>
       
         <rect
-          x="90"
-          y="458"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="173"
+          y="528"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2025-09-16: 0 contributions</title>
         </rect>
       
         <rect
-          x="90"
-          y="472"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="173"
+          y="542"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2025-09-17: 0 contributions</title>
         </rect>
       
         <rect
-          x="90"
-          y="486"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="173"
+          y="556"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2025-09-18: 0 contributions</title>
         </rect>
       
         <rect
-          x="90"
-          y="500"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="173"
+          y="570"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2025-09-19: 0 contributions</title>
         </rect>
       
         <rect
-          x="90"
-          y="514"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="173"
+          y="584"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2025-09-20: 0 contributions</title>
         </rect>
       
         <rect
-          x="104"
-          y="430"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="187"
+          y="500"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2025-09-21: 0 contributions</title>
         </rect>
       
         <rect
-          x="104"
-          y="444"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="187"
+          y="514"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2025-09-22: 0 contributions</title>
         </rect>
       
         <rect
-          x="104"
-          y="458"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="187"
+          y="528"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2025-09-23: 0 contributions</title>
         </rect>
       
         <rect
-          x="104"
-          y="472"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="187"
+          y="542"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2025-09-24: 0 contributions</title>
         </rect>
       
         <rect
-          x="104"
-          y="486"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="187"
+          y="556"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2025-09-25: 0 contributions</title>
         </rect>
       
         <rect
-          x="104"
-          y="500"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="187"
+          y="570"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2025-09-26: 0 contributions</title>
         </rect>
       
         <rect
-          x="104"
-          y="514"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="187"
+          y="584"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2025-09-27: 0 contributions</title>
         </rect>
       
         <rect
-          x="118"
-          y="430"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="201"
+          y="500"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2025-09-28: 0 contributions</title>
         </rect>
       
         <rect
-          x="118"
-          y="444"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="201"
+          y="514"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2025-09-29: 0 contributions</title>
         </rect>
       
         <rect
-          x="118"
-          y="458"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="201"
+          y="528"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2025-09-30: 0 contributions</title>
         </rect>
       
         <rect
-          x="118"
-          y="472"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="201"
+          y="542"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2025-10-01: 0 contributions</title>
         </rect>
       
         <rect
-          x="118"
-          y="486"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="201"
+          y="556"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2025-10-02: 0 contributions</title>
         </rect>
       
         <rect
-          x="118"
-          y="500"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="201"
+          y="570"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2025-10-03: 0 contributions</title>
         </rect>
       
         <rect
-          x="118"
-          y="514"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="201"
+          y="584"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2025-10-04: 0 contributions</title>
         </rect>
       
         <rect
-          x="132"
-          y="430"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="215"
+          y="500"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2025-10-05: 0 contributions</title>
         </rect>
       
         <rect
-          x="132"
-          y="444"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="215"
+          y="514"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2025-10-06: 0 contributions</title>
         </rect>
       
         <rect
-          x="132"
-          y="458"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="215"
+          y="528"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2025-10-07: 0 contributions</title>
         </rect>
       
         <rect
-          x="132"
-          y="472"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="215"
+          y="542"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2025-10-08: 0 contributions</title>
         </rect>
       
         <rect
-          x="132"
-          y="486"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="215"
+          y="556"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2025-10-09: 0 contributions</title>
         </rect>
       
         <rect
-          x="132"
-          y="500"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="215"
+          y="570"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2025-10-10: 0 contributions</title>
         </rect>
       
         <rect
-          x="132"
-          y="514"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="215"
+          y="584"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2025-10-11: 0 contributions</title>
         </rect>
       
         <rect
-          x="146"
-          y="430"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="229"
+          y="500"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2025-10-12: 0 contributions</title>
         </rect>
       
         <rect
-          x="146"
-          y="444"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="229"
+          y="514"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2025-10-13: 0 contributions</title>
         </rect>
       
         <rect
-          x="146"
-          y="458"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="229"
+          y="528"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2025-10-14: 0 contributions</title>
         </rect>
       
         <rect
-          x="146"
-          y="472"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="229"
+          y="542"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2025-10-15: 0 contributions</title>
         </rect>
       
         <rect
-          x="146"
-          y="486"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="229"
+          y="556"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2025-10-16: 0 contributions</title>
         </rect>
       
         <rect
-          x="146"
-          y="500"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="229"
+          y="570"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2025-10-17: 0 contributions</title>
         </rect>
       
         <rect
-          x="146"
-          y="514"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="229"
+          y="584"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2025-10-18: 0 contributions</title>
         </rect>
       
         <rect
-          x="160"
-          y="430"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="243"
+          y="500"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2025-10-19: 0 contributions</title>
         </rect>
       
         <rect
-          x="160"
-          y="444"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="243"
+          y="514"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2025-10-20: 0 contributions</title>
         </rect>
       
         <rect
-          x="160"
-          y="458"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="243"
+          y="528"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2025-10-21: 0 contributions</title>
         </rect>
       
         <rect
-          x="160"
-          y="472"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="243"
+          y="542"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2025-10-22: 0 contributions</title>
         </rect>
       
         <rect
-          x="160"
-          y="486"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="243"
+          y="556"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2025-10-23: 0 contributions</title>
         </rect>
       
         <rect
-          x="160"
-          y="500"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="243"
+          y="570"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2025-10-24: 0 contributions</title>
         </rect>
       
         <rect
-          x="160"
-          y="514"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="243"
+          y="584"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2025-10-25: 0 contributions</title>
         </rect>
       
         <rect
-          x="174"
-          y="430"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="257"
+          y="500"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2025-10-26: 0 contributions</title>
         </rect>
       
         <rect
-          x="174"
-          y="444"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="257"
+          y="514"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2025-10-27: 0 contributions</title>
         </rect>
       
         <rect
-          x="174"
-          y="458"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="257"
+          y="528"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2025-10-28: 0 contributions</title>
         </rect>
       
         <rect
-          x="174"
-          y="472"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="257"
+          y="542"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2025-10-29: 0 contributions</title>
         </rect>
       
         <rect
-          x="174"
-          y="486"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="257"
+          y="556"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2025-10-30: 0 contributions</title>
         </rect>
       
         <rect
-          x="174"
-          y="500"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="257"
+          y="570"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2025-10-31: 0 contributions</title>
         </rect>
       
         <rect
-          x="174"
-          y="514"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="257"
+          y="584"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2025-11-01: 0 contributions</title>
         </rect>
       
         <rect
-          x="188"
-          y="430"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="271"
+          y="500"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2025-11-02: 0 contributions</title>
         </rect>
       
         <rect
-          x="188"
-          y="444"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="271"
+          y="514"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2025-11-03: 0 contributions</title>
         </rect>
       
         <rect
-          x="188"
-          y="458"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="271"
+          y="528"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2025-11-04: 0 contributions</title>
         </rect>
       
         <rect
-          x="188"
-          y="472"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="271"
+          y="542"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2025-11-05: 0 contributions</title>
         </rect>
       
         <rect
-          x="188"
-          y="486"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="271"
+          y="556"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2025-11-06: 0 contributions</title>
         </rect>
       
         <rect
-          x="188"
-          y="500"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="271"
+          y="570"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2025-11-07: 0 contributions</title>
         </rect>
       
         <rect
-          x="188"
-          y="514"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="271"
+          y="584"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2025-11-08: 0 contributions</title>
         </rect>
       
         <rect
-          x="202"
-          y="430"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="285"
+          y="500"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2025-11-09: 0 contributions</title>
         </rect>
       
         <rect
-          x="202"
-          y="444"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="285"
+          y="514"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2025-11-10: 0 contributions</title>
         </rect>
       
         <rect
-          x="202"
-          y="458"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="285"
+          y="528"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2025-11-11: 0 contributions</title>
         </rect>
       
         <rect
-          x="202"
-          y="472"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="285"
+          y="542"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2025-11-12: 0 contributions</title>
         </rect>
       
         <rect
-          x="202"
-          y="486"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="285"
+          y="556"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2025-11-13: 0 contributions</title>
         </rect>
       
         <rect
-          x="202"
-          y="500"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="285"
+          y="570"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2025-11-14: 0 contributions</title>
         </rect>
       
         <rect
-          x="202"
-          y="514"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="285"
+          y="584"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2025-11-15: 0 contributions</title>
         </rect>
       
         <rect
-          x="216"
-          y="430"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="299"
+          y="500"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2025-11-16: 0 contributions</title>
         </rect>
       
         <rect
-          x="216"
-          y="444"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="299"
+          y="514"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2025-11-17: 0 contributions</title>
         </rect>
       
         <rect
-          x="216"
-          y="458"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="299"
+          y="528"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2025-11-18: 0 contributions</title>
         </rect>
       
         <rect
-          x="216"
-          y="472"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="299"
+          y="542"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2025-11-19: 0 contributions</title>
         </rect>
       
         <rect
-          x="216"
-          y="486"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="299"
+          y="556"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2025-11-20: 0 contributions</title>
         </rect>
       
         <rect
-          x="216"
-          y="500"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="299"
+          y="570"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2025-11-21: 0 contributions</title>
         </rect>
       
         <rect
-          x="216"
-          y="514"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="299"
+          y="584"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2025-11-22: 0 contributions</title>
         </rect>
       
         <rect
-          x="230"
-          y="430"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="313"
+          y="500"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2025-11-23: 0 contributions</title>
         </rect>
       
         <rect
-          x="230"
-          y="444"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="313"
+          y="514"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2025-11-24: 0 contributions</title>
         </rect>
       
         <rect
-          x="230"
-          y="458"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="313"
+          y="528"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2025-11-25: 0 contributions</title>
         </rect>
       
         <rect
-          x="230"
-          y="472"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="313"
+          y="542"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2025-11-26: 0 contributions</title>
         </rect>
       
         <rect
-          x="230"
-          y="486"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="313"
+          y="556"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2025-11-27: 0 contributions</title>
         </rect>
       
         <rect
-          x="230"
-          y="500"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="313"
+          y="570"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2025-11-28: 0 contributions</title>
         </rect>
       
         <rect
-          x="230"
-          y="514"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="313"
+          y="584"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2025-11-29: 0 contributions</title>
         </rect>
       
         <rect
-          x="244"
-          y="430"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="327"
+          y="500"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2025-11-30: 0 contributions</title>
         </rect>
       
         <rect
-          x="244"
-          y="444"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="327"
+          y="514"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2025-12-01: 0 contributions</title>
         </rect>
       
         <rect
-          x="244"
-          y="458"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="327"
+          y="528"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2025-12-02: 0 contributions</title>
         </rect>
       
         <rect
-          x="244"
-          y="472"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="327"
+          y="542"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2025-12-03: 0 contributions</title>
         </rect>
       
         <rect
-          x="244"
-          y="486"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="327"
+          y="556"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2025-12-04: 0 contributions</title>
         </rect>
       
         <rect
-          x="244"
-          y="500"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="327"
+          y="570"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2025-12-05: 0 contributions</title>
         </rect>
       
         <rect
-          x="244"
-          y="514"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="327"
+          y="584"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2025-12-06: 0 contributions</title>
         </rect>
       
         <rect
-          x="258"
-          y="430"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="341"
+          y="500"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2025-12-07: 0 contributions</title>
         </rect>
       
         <rect
-          x="258"
-          y="444"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="341"
+          y="514"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2025-12-08: 0 contributions</title>
         </rect>
       
         <rect
-          x="258"
-          y="458"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="341"
+          y="528"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2025-12-09: 0 contributions</title>
         </rect>
       
         <rect
-          x="258"
-          y="472"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="341"
+          y="542"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2025-12-10: 0 contributions</title>
         </rect>
       
         <rect
-          x="258"
-          y="486"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="341"
+          y="556"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2025-12-11: 0 contributions</title>
         </rect>
       
         <rect
-          x="258"
-          y="500"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="341"
+          y="570"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2025-12-12: 0 contributions</title>
         </rect>
       
         <rect
-          x="258"
-          y="514"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="341"
+          y="584"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2025-12-13: 0 contributions</title>
         </rect>
       
         <rect
-          x="272"
-          y="430"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="355"
+          y="500"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2025-12-14: 0 contributions</title>
         </rect>
       
         <rect
-          x="272"
-          y="444"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="355"
+          y="514"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2025-12-15: 0 contributions</title>
         </rect>
       
         <rect
-          x="272"
-          y="458"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="355"
+          y="528"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2025-12-16: 0 contributions</title>
         </rect>
       
         <rect
-          x="272"
-          y="472"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="355"
+          y="542"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2025-12-17: 0 contributions</title>
         </rect>
       
         <rect
-          x="272"
-          y="486"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="355"
+          y="556"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2025-12-18: 0 contributions</title>
         </rect>
       
         <rect
-          x="272"
-          y="500"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="355"
+          y="570"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2025-12-19: 0 contributions</title>
         </rect>
       
         <rect
-          x="272"
-          y="514"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="355"
+          y="584"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2025-12-20: 0 contributions</title>
         </rect>
       
         <rect
-          x="286"
-          y="430"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="369"
+          y="500"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2025-12-21: 0 contributions</title>
         </rect>
       
         <rect
-          x="286"
-          y="444"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="369"
+          y="514"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2025-12-22: 0 contributions</title>
         </rect>
       
         <rect
-          x="286"
-          y="458"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="369"
+          y="528"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2025-12-23: 0 contributions</title>
         </rect>
       
         <rect
-          x="286"
-          y="472"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="369"
+          y="542"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2025-12-24: 0 contributions</title>
         </rect>
       
         <rect
-          x="286"
-          y="486"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="369"
+          y="556"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2025-12-25: 0 contributions</title>
         </rect>
       
         <rect
-          x="286"
-          y="500"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="369"
+          y="570"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2025-12-26: 0 contributions</title>
         </rect>
       
         <rect
-          x="286"
-          y="514"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="369"
+          y="584"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2025-12-27: 0 contributions</title>
         </rect>
       
         <rect
-          x="300"
-          y="430"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="383"
+          y="500"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2025-12-28: 0 contributions</title>
         </rect>
       
         <rect
-          x="300"
-          y="444"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="383"
+          y="514"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2025-12-29: 0 contributions</title>
         </rect>
       
         <rect
-          x="300"
-          y="458"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="383"
+          y="528"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2025-12-30: 0 contributions</title>
         </rect>
       
         <rect
-          x="300"
-          y="472"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="383"
+          y="542"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2025-12-31: 0 contributions</title>
         </rect>
       
         <rect
-          x="300"
-          y="486"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="383"
+          y="556"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-01-01: 0 contributions</title>
         </rect>
       
         <rect
-          x="300"
-          y="500"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="383"
+          y="570"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-01-02: 0 contributions</title>
         </rect>
       
         <rect
-          x="300"
-          y="514"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="383"
+          y="584"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-01-03: 0 contributions</title>
         </rect>
       
         <rect
-          x="314"
-          y="430"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="397"
+          y="500"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-01-04: 0 contributions</title>
         </rect>
       
         <rect
-          x="314"
-          y="444"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="397"
+          y="514"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-01-05: 0 contributions</title>
         </rect>
       
         <rect
-          x="314"
-          y="458"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="397"
+          y="528"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-01-06: 0 contributions</title>
         </rect>
       
         <rect
-          x="314"
-          y="472"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="397"
+          y="542"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-01-07: 0 contributions</title>
         </rect>
       
         <rect
-          x="314"
-          y="486"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="397"
+          y="556"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-01-08: 0 contributions</title>
         </rect>
       
         <rect
-          x="314"
-          y="500"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="397"
+          y="570"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-01-09: 0 contributions</title>
         </rect>
       
         <rect
-          x="314"
-          y="514"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="397"
+          y="584"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-01-10: 0 contributions</title>
         </rect>
       
         <rect
-          x="328"
-          y="430"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="411"
+          y="500"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-01-11: 0 contributions</title>
         </rect>
       
         <rect
-          x="328"
-          y="444"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="411"
+          y="514"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-01-12: 0 contributions</title>
         </rect>
       
         <rect
-          x="328"
-          y="458"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="411"
+          y="528"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-01-13: 0 contributions</title>
         </rect>
       
         <rect
-          x="328"
-          y="472"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="411"
+          y="542"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-01-14: 0 contributions</title>
         </rect>
       
         <rect
-          x="328"
-          y="486"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="411"
+          y="556"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-01-15: 0 contributions</title>
         </rect>
       
         <rect
-          x="328"
-          y="500"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="411"
+          y="570"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-01-16: 0 contributions</title>
         </rect>
       
         <rect
-          x="328"
-          y="514"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="411"
+          y="584"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-01-17: 0 contributions</title>
         </rect>
       
         <rect
-          x="342"
-          y="430"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="425"
+          y="500"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-01-18: 0 contributions</title>
         </rect>
       
         <rect
-          x="342"
-          y="444"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#0e4429"
-        >
+          x="425"
+          y="514"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#0e4429">
           <title>2026-01-19: 4 contributions</title>
         </rect>
       
         <rect
-          x="342"
-          y="458"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="425"
+          y="528"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-01-20: 0 contributions</title>
         </rect>
       
         <rect
-          x="342"
-          y="472"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="425"
+          y="542"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-01-21: 0 contributions</title>
         </rect>
       
         <rect
-          x="342"
-          y="486"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="425"
+          y="556"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-01-22: 0 contributions</title>
         </rect>
       
         <rect
-          x="342"
-          y="500"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="425"
+          y="570"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-01-23: 0 contributions</title>
         </rect>
       
         <rect
-          x="342"
-          y="514"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="425"
+          y="584"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-01-24: 0 contributions</title>
         </rect>
       
         <rect
-          x="356"
-          y="430"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="439"
+          y="500"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-01-25: 0 contributions</title>
         </rect>
       
         <rect
-          x="356"
-          y="444"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="439"
+          y="514"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-01-26: 0 contributions</title>
         </rect>
       
         <rect
-          x="356"
-          y="458"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="439"
+          y="528"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-01-27: 0 contributions</title>
         </rect>
       
         <rect
-          x="356"
-          y="472"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="439"
+          y="542"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-01-28: 0 contributions</title>
         </rect>
       
         <rect
-          x="356"
-          y="486"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="439"
+          y="556"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-01-29: 0 contributions</title>
         </rect>
       
         <rect
-          x="356"
-          y="500"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="439"
+          y="570"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-01-30: 0 contributions</title>
         </rect>
       
         <rect
-          x="356"
-          y="514"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="439"
+          y="584"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-01-31: 0 contributions</title>
         </rect>
       
         <rect
-          x="370"
-          y="430"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="453"
+          y="500"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-02-01: 0 contributions</title>
         </rect>
       
         <rect
-          x="370"
-          y="444"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#0e4429"
-        >
+          x="453"
+          y="514"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#0e4429">
           <title>2026-02-02: 2 contributions</title>
         </rect>
       
         <rect
-          x="370"
-          y="458"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="453"
+          y="528"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-02-03: 0 contributions</title>
         </rect>
       
         <rect
-          x="370"
-          y="472"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="453"
+          y="542"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-02-04: 0 contributions</title>
         </rect>
       
         <rect
-          x="370"
-          y="486"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="453"
+          y="556"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-02-05: 0 contributions</title>
         </rect>
       
         <rect
-          x="370"
-          y="500"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="453"
+          y="570"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-02-06: 0 contributions</title>
         </rect>
       
         <rect
-          x="370"
-          y="514"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="453"
+          y="584"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-02-07: 0 contributions</title>
         </rect>
       
         <rect
-          x="384"
-          y="430"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="467"
+          y="500"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-02-08: 0 contributions</title>
         </rect>
       
         <rect
-          x="384"
-          y="444"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="467"
+          y="514"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-02-09: 0 contributions</title>
         </rect>
       
         <rect
-          x="384"
-          y="458"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="467"
+          y="528"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-02-10: 0 contributions</title>
         </rect>
       
         <rect
-          x="384"
-          y="472"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="467"
+          y="542"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-02-11: 0 contributions</title>
         </rect>
       
         <rect
-          x="384"
-          y="486"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="467"
+          y="556"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-02-12: 0 contributions</title>
         </rect>
       
         <rect
-          x="384"
-          y="500"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="467"
+          y="570"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-02-13: 0 contributions</title>
         </rect>
       
         <rect
-          x="384"
-          y="514"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="467"
+          y="584"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-02-14: 0 contributions</title>
         </rect>
       
         <rect
-          x="398"
-          y="430"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="481"
+          y="500"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-02-15: 0 contributions</title>
         </rect>
       
         <rect
-          x="398"
-          y="444"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="481"
+          y="514"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-02-16: 0 contributions</title>
         </rect>
       
         <rect
-          x="398"
-          y="458"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="481"
+          y="528"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-02-17: 0 contributions</title>
         </rect>
       
         <rect
-          x="398"
-          y="472"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="481"
+          y="542"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-02-18: 0 contributions</title>
         </rect>
       
         <rect
-          x="398"
-          y="486"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="481"
+          y="556"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-02-19: 0 contributions</title>
         </rect>
       
         <rect
-          x="398"
-          y="500"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="481"
+          y="570"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-02-20: 0 contributions</title>
         </rect>
       
         <rect
-          x="398"
-          y="514"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="481"
+          y="584"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-02-21: 0 contributions</title>
         </rect>
       
         <rect
-          x="412"
-          y="430"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="495"
+          y="500"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-02-22: 0 contributions</title>
         </rect>
       
         <rect
-          x="412"
-          y="444"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="495"
+          y="514"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-02-23: 0 contributions</title>
         </rect>
       
         <rect
-          x="412"
-          y="458"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="495"
+          y="528"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-02-24: 0 contributions</title>
         </rect>
       
         <rect
-          x="412"
-          y="472"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="495"
+          y="542"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-02-25: 0 contributions</title>
         </rect>
       
         <rect
-          x="412"
-          y="486"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="495"
+          y="556"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-02-26: 0 contributions</title>
         </rect>
       
         <rect
-          x="412"
-          y="500"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="495"
+          y="570"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-02-27: 0 contributions</title>
         </rect>
       
         <rect
-          x="412"
-          y="514"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="495"
+          y="584"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-02-28: 0 contributions</title>
         </rect>
       
         <rect
-          x="426"
-          y="430"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="509"
+          y="500"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-03-01: 0 contributions</title>
         </rect>
       
         <rect
-          x="426"
-          y="444"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="509"
+          y="514"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-03-02: 0 contributions</title>
         </rect>
       
         <rect
-          x="426"
-          y="458"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="509"
+          y="528"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-03-03: 0 contributions</title>
         </rect>
       
         <rect
-          x="426"
-          y="472"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="509"
+          y="542"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-03-04: 0 contributions</title>
         </rect>
       
         <rect
-          x="426"
-          y="486"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="509"
+          y="556"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-03-05: 0 contributions</title>
         </rect>
       
         <rect
-          x="426"
-          y="500"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="509"
+          y="570"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-03-06: 0 contributions</title>
         </rect>
       
         <rect
-          x="426"
-          y="514"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="509"
+          y="584"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-03-07: 0 contributions</title>
         </rect>
       
         <rect
-          x="440"
-          y="430"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#0e4429"
-        >
+          x="523"
+          y="500"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#0e4429">
           <title>2026-03-08: 2 contributions</title>
         </rect>
       
         <rect
-          x="440"
-          y="444"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="523"
+          y="514"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-03-09: 0 contributions</title>
         </rect>
       
         <rect
-          x="440"
-          y="458"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="523"
+          y="528"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-03-10: 0 contributions</title>
         </rect>
       
         <rect
-          x="440"
-          y="472"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="523"
+          y="542"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-03-11: 0 contributions</title>
         </rect>
       
         <rect
-          x="440"
-          y="486"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="523"
+          y="556"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-03-12: 0 contributions</title>
         </rect>
       
         <rect
-          x="440"
-          y="500"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="523"
+          y="570"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-03-13: 0 contributions</title>
         </rect>
       
         <rect
-          x="440"
-          y="514"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="523"
+          y="584"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-03-14: 0 contributions</title>
         </rect>
       
         <rect
-          x="454"
-          y="430"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="537"
+          y="500"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-03-15: 0 contributions</title>
         </rect>
       
         <rect
-          x="454"
-          y="444"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="537"
+          y="514"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-03-16: 0 contributions</title>
         </rect>
       
         <rect
-          x="454"
-          y="458"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="537"
+          y="528"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-03-17: 0 contributions</title>
         </rect>
       
         <rect
-          x="454"
-          y="472"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="537"
+          y="542"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-03-18: 0 contributions</title>
         </rect>
       
         <rect
-          x="454"
-          y="486"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="537"
+          y="556"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-03-19: 0 contributions</title>
         </rect>
       
         <rect
-          x="454"
-          y="500"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="537"
+          y="570"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-03-20: 0 contributions</title>
         </rect>
       
         <rect
-          x="454"
-          y="514"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="537"
+          y="584"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-03-21: 0 contributions</title>
         </rect>
       
         <rect
-          x="468"
-          y="430"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="551"
+          y="500"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-03-22: 0 contributions</title>
         </rect>
       
         <rect
-          x="468"
-          y="444"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="551"
+          y="514"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-03-23: 0 contributions</title>
         </rect>
       
         <rect
-          x="468"
-          y="458"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="551"
+          y="528"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-03-24: 0 contributions</title>
         </rect>
       
         <rect
-          x="468"
-          y="472"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="551"
+          y="542"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-03-25: 0 contributions</title>
         </rect>
       
         <rect
-          x="468"
-          y="486"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="551"
+          y="556"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-03-26: 0 contributions</title>
         </rect>
       
         <rect
-          x="468"
-          y="500"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="551"
+          y="570"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-03-27: 0 contributions</title>
         </rect>
       
         <rect
-          x="468"
-          y="514"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="551"
+          y="584"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-03-28: 0 contributions</title>
         </rect>
       
         <rect
-          x="482"
-          y="430"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="565"
+          y="500"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-03-29: 0 contributions</title>
         </rect>
       
         <rect
-          x="482"
-          y="444"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="565"
+          y="514"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-03-30: 0 contributions</title>
         </rect>
       
         <rect
-          x="482"
-          y="458"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="565"
+          y="528"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-03-31: 0 contributions</title>
         </rect>
       
         <rect
-          x="482"
-          y="472"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="565"
+          y="542"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-04-01: 0 contributions</title>
         </rect>
       
         <rect
-          x="482"
-          y="486"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="565"
+          y="556"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-04-02: 0 contributions</title>
         </rect>
       
         <rect
-          x="482"
-          y="500"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="565"
+          y="570"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-04-03: 0 contributions</title>
         </rect>
       
         <rect
-          x="482"
-          y="514"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="565"
+          y="584"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-04-04: 0 contributions</title>
         </rect>
       
         <rect
-          x="496"
-          y="430"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#0e4429"
-        >
+          x="579"
+          y="500"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#0e4429">
           <title>2026-04-05: 4 contributions</title>
         </rect>
       
         <rect
-          x="496"
-          y="444"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="579"
+          y="514"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-04-06: 0 contributions</title>
         </rect>
       
         <rect
-          x="496"
-          y="458"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#0e4429"
-        >
+          x="579"
+          y="528"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#0e4429">
           <title>2026-04-07: 4 contributions</title>
         </rect>
       
         <rect
-          x="496"
-          y="472"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#0e4429"
-        >
+          x="579"
+          y="542"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#0e4429">
           <title>2026-04-08: 1 contributions</title>
         </rect>
       
         <rect
-          x="496"
-          y="486"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#0e4429"
-        >
+          x="579"
+          y="556"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#0e4429">
           <title>2026-04-09: 1 contributions</title>
         </rect>
       
         <rect
-          x="496"
-          y="500"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#0e4429"
-        >
+          x="579"
+          y="570"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#0e4429">
           <title>2026-04-10: 2 contributions</title>
         </rect>
       
         <rect
-          x="496"
-          y="514"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#0e4429"
-        >
+          x="579"
+          y="584"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#0e4429">
           <title>2026-04-11: 2 contributions</title>
         </rect>
       
         <rect
-          x="510"
-          y="430"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="593"
+          y="500"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-04-12: 0 contributions</title>
         </rect>
       
         <rect
-          x="510"
-          y="444"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="593"
+          y="514"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-04-13: 0 contributions</title>
         </rect>
       
         <rect
-          x="510"
-          y="458"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="593"
+          y="528"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-04-14: 0 contributions</title>
         </rect>
       
         <rect
-          x="510"
-          y="472"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="593"
+          y="542"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-04-15: 0 contributions</title>
         </rect>
       
         <rect
-          x="510"
-          y="486"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="593"
+          y="556"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-04-16: 0 contributions</title>
         </rect>
       
         <rect
-          x="510"
-          y="500"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="593"
+          y="570"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-04-17: 0 contributions</title>
         </rect>
       
         <rect
-          x="510"
-          y="514"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="593"
+          y="584"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-04-18: 0 contributions</title>
         </rect>
       
         <rect
-          x="524"
-          y="430"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="607"
+          y="500"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-04-19: 0 contributions</title>
         </rect>
       
         <rect
-          x="524"
-          y="444"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="607"
+          y="514"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-04-20: 0 contributions</title>
         </rect>
       
         <rect
-          x="524"
-          y="458"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="607"
+          y="528"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-04-21: 0 contributions</title>
         </rect>
       
         <rect
-          x="524"
-          y="472"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="607"
+          y="542"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-04-22: 0 contributions</title>
         </rect>
       
         <rect
-          x="524"
-          y="486"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="607"
+          y="556"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-04-23: 0 contributions</title>
         </rect>
       
         <rect
-          x="524"
-          y="500"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="607"
+          y="570"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-04-24: 0 contributions</title>
         </rect>
       
         <rect
-          x="524"
-          y="514"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="607"
+          y="584"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-04-25: 0 contributions</title>
         </rect>
       
         <rect
-          x="538"
-          y="430"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="621"
+          y="500"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-04-26: 0 contributions</title>
         </rect>
       
         <rect
-          x="538"
-          y="444"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="621"
+          y="514"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-04-27: 0 contributions</title>
         </rect>
       
         <rect
-          x="538"
-          y="458"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="621"
+          y="528"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-04-28: 0 contributions</title>
         </rect>
       
         <rect
-          x="538"
-          y="472"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="621"
+          y="542"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-04-29: 0 contributions</title>
         </rect>
       
         <rect
-          x="538"
-          y="486"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="621"
+          y="556"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-04-30: 0 contributions</title>
         </rect>
       
         <rect
-          x="538"
-          y="500"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="621"
+          y="570"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-05-01: 0 contributions</title>
         </rect>
       
         <rect
-          x="538"
-          y="514"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="621"
+          y="584"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-05-02: 0 contributions</title>
         </rect>
       
         <rect
-          x="552"
-          y="430"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="635"
+          y="500"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-05-03: 0 contributions</title>
         </rect>
       
         <rect
-          x="552"
-          y="444"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="635"
+          y="514"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-05-04: 0 contributions</title>
         </rect>
       
         <rect
-          x="552"
-          y="458"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="635"
+          y="528"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-05-05: 0 contributions</title>
         </rect>
       
         <rect
-          x="552"
-          y="472"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#0e4429"
-        >
+          x="635"
+          y="542"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#0e4429">
           <title>2026-05-06: 2 contributions</title>
         </rect>
       
         <rect
-          x="552"
-          y="486"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="635"
+          y="556"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-05-07: 0 contributions</title>
         </rect>
       
         <rect
-          x="552"
-          y="500"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="635"
+          y="570"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-05-08: 0 contributions</title>
         </rect>
       
         <rect
-          x="552"
-          y="514"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="635"
+          y="584"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-05-09: 0 contributions</title>
         </rect>
       
         <rect
-          x="566"
-          y="430"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="649"
+          y="500"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-05-10: 0 contributions</title>
         </rect>
       
         <rect
-          x="566"
-          y="444"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="649"
+          y="514"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-05-11: 0 contributions</title>
         </rect>
       
         <rect
-          x="566"
-          y="458"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="649"
+          y="528"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-05-12: 0 contributions</title>
         </rect>
       
         <rect
-          x="566"
-          y="472"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="649"
+          y="542"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-05-13: 0 contributions</title>
         </rect>
       
         <rect
-          x="566"
-          y="486"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="649"
+          y="556"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-05-14: 0 contributions</title>
         </rect>
       
         <rect
-          x="566"
-          y="500"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="649"
+          y="570"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-05-15: 0 contributions</title>
         </rect>
       
         <rect
-          x="566"
-          y="514"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="649"
+          y="584"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-05-16: 0 contributions</title>
         </rect>
       
         <rect
-          x="580"
-          y="430"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="663"
+          y="500"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-05-17: 0 contributions</title>
         </rect>
       
         <rect
-          x="580"
-          y="444"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="663"
+          y="514"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-05-18: 0 contributions</title>
         </rect>
       
         <rect
-          x="580"
-          y="458"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="663"
+          y="528"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-05-19: 0 contributions</title>
         </rect>
       
         <rect
-          x="580"
-          y="472"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="663"
+          y="542"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-05-20: 0 contributions</title>
         </rect>
       
         <rect
-          x="580"
-          y="486"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="663"
+          y="556"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-05-21: 0 contributions</title>
         </rect>
       
         <rect
-          x="580"
-          y="500"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="663"
+          y="570"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-05-22: 0 contributions</title>
         </rect>
       
         <rect
-          x="580"
-          y="514"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="663"
+          y="584"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-05-23: 0 contributions</title>
         </rect>
       
         <rect
-          x="594"
-          y="430"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="677"
+          y="500"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-05-24: 0 contributions</title>
         </rect>
       
         <rect
-          x="594"
-          y="444"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="677"
+          y="514"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-05-25: 0 contributions</title>
         </rect>
       
         <rect
-          x="594"
-          y="458"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="677"
+          y="528"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-05-26: 0 contributions</title>
         </rect>
       
         <rect
-          x="594"
-          y="472"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="677"
+          y="542"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-05-27: 0 contributions</title>
         </rect>
       
         <rect
-          x="594"
-          y="486"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="677"
+          y="556"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-05-28: 0 contributions</title>
         </rect>
       
         <rect
-          x="594"
-          y="500"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="677"
+          y="570"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-05-29: 0 contributions</title>
         </rect>
       
         <rect
-          x="594"
-          y="514"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="677"
+          y="584"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-05-30: 0 contributions</title>
         </rect>
       
         <rect
-          x="608"
-          y="430"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="691"
+          y="500"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-05-31: 0 contributions</title>
         </rect>
       
         <rect
-          x="608"
-          y="444"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="691"
+          y="514"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-06-01: 0 contributions</title>
         </rect>
       
         <rect
-          x="608"
-          y="458"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="691"
+          y="528"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-06-02: 0 contributions</title>
         </rect>
       
         <rect
-          x="608"
-          y="472"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="691"
+          y="542"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-06-03: 0 contributions</title>
         </rect>
       
         <rect
-          x="608"
-          y="486"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="691"
+          y="556"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-06-04: 0 contributions</title>
         </rect>
       
         <rect
-          x="608"
-          y="500"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="691"
+          y="570"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-06-05: 0 contributions</title>
         </rect>
       
         <rect
-          x="608"
-          y="514"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="691"
+          y="584"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-06-06: 0 contributions</title>
         </rect>
       
         <rect
-          x="622"
-          y="430"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="705"
+          y="500"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-06-07: 0 contributions</title>
         </rect>
       
         <rect
-          x="622"
-          y="444"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="705"
+          y="514"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-06-08: 0 contributions</title>
         </rect>
       
         <rect
-          x="622"
-          y="458"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="705"
+          y="528"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-06-09: 0 contributions</title>
         </rect>
       
         <rect
-          x="622"
-          y="472"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="705"
+          y="542"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-06-10: 0 contributions</title>
         </rect>
       
         <rect
-          x="622"
-          y="486"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="705"
+          y="556"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-06-11: 0 contributions</title>
         </rect>
       
         <rect
-          x="622"
-          y="500"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="705"
+          y="570"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-06-12: 0 contributions</title>
         </rect>
       
         <rect
-          x="622"
-          y="514"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="705"
+          y="584"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-06-13: 0 contributions</title>
         </rect>
       
         <rect
-          x="636"
-          y="430"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="719"
+          y="500"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-06-14: 0 contributions</title>
         </rect>
       
         <rect
-          x="636"
-          y="444"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="719"
+          y="514"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-06-15: 0 contributions</title>
         </rect>
       
         <rect
-          x="636"
-          y="458"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="719"
+          y="528"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-06-16: 0 contributions</title>
         </rect>
       
         <rect
-          x="636"
-          y="472"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#0e4429"
-        >
+          x="719"
+          y="542"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#0e4429">
           <title>2026-06-17: 1 contributions</title>
         </rect>
       
         <rect
-          x="636"
-          y="486"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#0e4429"
-        >
+          x="719"
+          y="556"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#0e4429">
           <title>2026-06-18: 2 contributions</title>
         </rect>
       
         <rect
-          x="636"
-          y="500"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="719"
+          y="570"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-06-19: 0 contributions</title>
         </rect>
       
         <rect
-          x="636"
-          y="514"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="719"
+          y="584"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-06-20: 0 contributions</title>
         </rect>
       
         <rect
-          x="650"
-          y="430"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="733"
+          y="500"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-06-21: 0 contributions</title>
         </rect>
       
         <rect
-          x="650"
-          y="444"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="733"
+          y="514"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-06-22: 0 contributions</title>
         </rect>
       
         <rect
-          x="650"
-          y="458"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="733"
+          y="528"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-06-23: 0 contributions</title>
         </rect>
       
         <rect
-          x="650"
-          y="472"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="733"
+          y="542"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-06-24: 0 contributions</title>
         </rect>
       
         <rect
-          x="650"
-          y="486"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="733"
+          y="556"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-06-25: 0 contributions</title>
         </rect>
       
         <rect
-          x="650"
-          y="500"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="733"
+          y="570"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-06-26: 0 contributions</title>
         </rect>
       
         <rect
-          x="650"
-          y="514"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="733"
+          y="584"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-06-27: 0 contributions</title>
         </rect>
       
         <rect
-          x="664"
-          y="430"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="747"
+          y="500"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-06-28: 0 contributions</title>
         </rect>
       
         <rect
-          x="664"
-          y="444"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="747"
+          y="514"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-06-29: 0 contributions</title>
         </rect>
       
         <rect
-          x="664"
-          y="458"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="747"
+          y="528"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-06-30: 0 contributions</title>
         </rect>
       
         <rect
-          x="664"
-          y="472"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#0e4429"
-        >
+          x="747"
+          y="542"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#0e4429">
           <title>2026-07-01: 7 contributions</title>
         </rect>
       
         <rect
-          x="664"
-          y="486"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#0e4429"
-        >
+          x="747"
+          y="556"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#0e4429">
           <title>2026-07-02: 2 contributions</title>
         </rect>
       
         <rect
-          x="664"
-          y="500"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#0e4429"
-        >
+          x="747"
+          y="570"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#0e4429">
           <title>2026-07-03: 5 contributions</title>
         </rect>
       
         <rect
-          x="664"
-          y="514"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#0e4429"
-        >
+          x="747"
+          y="584"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#0e4429">
           <title>2026-07-04: 2 contributions</title>
         </rect>
       
         <rect
-          x="678"
-          y="430"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="761"
+          y="500"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-07-05: 0 contributions</title>
         </rect>
       
         <rect
-          x="678"
-          y="444"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="761"
+          y="514"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-07-06: 0 contributions</title>
         </rect>
       
         <rect
-          x="678"
-          y="458"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="761"
+          y="528"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-07-07: 0 contributions</title>
         </rect>
       
         <rect
-          x="678"
-          y="472"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="761"
+          y="542"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-07-08: 0 contributions</title>
         </rect>
       
         <rect
-          x="678"
-          y="486"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="761"
+          y="556"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-07-09: 0 contributions</title>
         </rect>
       
         <rect
-          x="678"
-          y="500"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="761"
+          y="570"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-07-10: 0 contributions</title>
         </rect>
       
         <rect
-          x="678"
-          y="514"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="761"
+          y="584"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-07-11: 0 contributions</title>
         </rect>
       
         <rect
-          x="692"
-          y="430"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#0e4429"
-        >
+          x="775"
+          y="500"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#0e4429">
           <title>2026-07-12: 1 contributions</title>
         </rect>
       
         <rect
-          x="692"
-          y="444"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="775"
+          y="514"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-07-13: 0 contributions</title>
         </rect>
       
         <rect
-          x="692"
-          y="458"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="775"
+          y="528"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-07-14: 0 contributions</title>
         </rect>
       
         <rect
-          x="692"
-          y="472"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#0e4429"
-        >
+          x="775"
+          y="542"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#0e4429">
           <title>2026-07-15: 1 contributions</title>
         </rect>
       
         <rect
-          x="692"
-          y="486"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#0e4429"
-        >
+          x="775"
+          y="556"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#0e4429">
           <title>2026-07-16: 5 contributions</title>
         </rect>
       
         <rect
-          x="692"
-          y="500"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#0e4429"
-        >
+          x="775"
+          y="570"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#0e4429">
           <title>2026-07-17: 1 contributions</title>
         </rect>
       
         <rect
-          x="692"
-          y="514"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="775"
+          y="584"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-07-18: 0 contributions</title>
         </rect>
       
         <rect
-          x="706"
-          y="430"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="789"
+          y="500"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-07-19: 0 contributions</title>
         </rect>
       
         <rect
-          x="706"
-          y="444"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#39d353"
-        >
+          x="789"
+          y="514"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#39d353">
           <title>2026-07-20: 28 contributions</title>
         </rect>
       
         <rect
-          x="706"
-          y="458"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#006d32"
-        >
+          x="789"
+          y="528"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#006d32">
           <title>2026-07-21: 12 contributions</title>
         </rect>
       
         <rect
-          x="706"
-          y="472"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="789"
+          y="542"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-07-22: 0 contributions</title>
         </rect>
       
         <rect
-          x="706"
-          y="486"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#0e4429"
-        >
+          x="789"
+          y="556"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#0e4429">
           <title>2026-07-23: 2 contributions</title>
         </rect>
       
         <rect
-          x="706"
-          y="500"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="789"
+          y="570"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-07-24: 0 contributions</title>
         </rect>
       
         <rect
-          x="706"
-          y="514"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="789"
+          y="584"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-07-25: 0 contributions</title>
         </rect>
       
         <rect
-          x="720"
-          y="430"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="803"
+          y="500"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-07-26: 0 contributions</title>
         </rect>
       
         <rect
-          x="720"
-          y="444"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="803"
+          y="514"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-07-27: 0 contributions</title>
         </rect>
       
         <rect
-          x="720"
-          y="458"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="803"
+          y="528"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-07-28: 0 contributions</title>
         </rect>
       
         <rect
-          x="720"
-          y="472"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="803"
+          y="542"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-07-29: 0 contributions</title>
         </rect>
       
         <rect
-          x="720"
-          y="486"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="803"
+          y="556"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-07-30: 0 contributions</title>
         </rect>
       
         <rect
-          x="720"
-          y="500"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="803"
+          y="570"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-07-31: 0 contributions</title>
         </rect>
       
         <rect
-          x="720"
-          y="514"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="803"
+          y="584"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-08-01: 0 contributions</title>
         </rect>
       
         <rect
-          x="734"
-          y="430"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="817"
+          y="500"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-08-02: 0 contributions</title>
         </rect>
       
         <rect
-          x="734"
-          y="444"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="817"
+          y="514"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-08-03: 0 contributions</title>
         </rect>
       
         <rect
-          x="734"
-          y="458"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="817"
+          y="528"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-08-04: 0 contributions</title>
         </rect>
       
         <rect
-          x="734"
-          y="472"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#006d32"
-        >
+          x="817"
+          y="542"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#006d32">
           <title>2026-08-05: 11 contributions</title>
         </rect>
       
         <rect
-          x="734"
-          y="486"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="817"
+          y="556"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-08-06: 0 contributions</title>
         </rect>
       
         <rect
-          x="734"
-          y="500"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="817"
+          y="570"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-08-07: 0 contributions</title>
         </rect>
       
         <rect
-          x="734"
-          y="514"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="817"
+          y="584"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-08-08: 0 contributions</title>
         </rect>
       
         <rect
-          x="748"
-          y="430"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="831"
+          y="500"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-08-09: 0 contributions</title>
         </rect>
       
         <rect
-          x="748"
-          y="444"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="831"
+          y="514"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-08-10: 0 contributions</title>
         </rect>
       
         <rect
-          x="748"
-          y="458"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#0e4429"
-        >
+          x="831"
+          y="528"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#0e4429">
           <title>2026-08-11: 1 contributions</title>
         </rect>
       
         <rect
-          x="748"
-          y="472"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="831"
+          y="542"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-08-12: 0 contributions</title>
         </rect>
       
         <rect
-          x="748"
-          y="486"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#0e4429"
-        >
+          x="831"
+          y="556"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#0e4429">
           <title>2026-08-13: 5 contributions</title>
         </rect>
       
         <rect
-          x="748"
-          y="500"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#006d32"
-        >
+          x="831"
+          y="570"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#006d32">
           <title>2026-08-14: 12 contributions</title>
         </rect>
       
         <rect
-          x="748"
-          y="514"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#006d32"
-        >
+          x="831"
+          y="584"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#006d32">
           <title>2026-08-15: 9 contributions</title>
         </rect>
       
         <rect
-          x="762"
-          y="430"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#0e4429"
-        >
+          x="845"
+          y="500"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#0e4429">
           <title>2026-08-16: 4 contributions</title>
         </rect>
       
         <rect
-          x="762"
-          y="444"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#0e4429"
-        >
+          x="845"
+          y="514"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#0e4429">
           <title>2026-08-17: 1 contributions</title>
         </rect>
       
         <rect
-          x="762"
-          y="458"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#0e4429"
-        >
+          x="845"
+          y="528"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#0e4429">
           <title>2026-08-18: 4 contributions</title>
         </rect>
       
         <rect
-          x="762"
-          y="472"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#0e4429"
-        >
+          x="845"
+          y="542"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#0e4429">
           <title>2026-08-19: 1 contributions</title>
         </rect>
       
         <rect
-          x="762"
-          y="486"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="845"
+          y="556"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-08-20: 0 contributions</title>
         </rect>
       
         <rect
-          x="762"
-          y="500"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="845"
+          y="570"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-08-21: 0 contributions</title>
         </rect>
       
         <rect
-          x="762"
-          y="514"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#0e4429"
-        >
+          x="845"
+          y="584"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#0e4429">
           <title>2026-08-22: 5 contributions</title>
         </rect>
       
         <rect
-          x="776"
-          y="430"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="859"
+          y="500"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-08-23: 0 contributions</title>
         </rect>
       
         <rect
-          x="776"
-          y="444"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#0e4429"
-        >
+          x="859"
+          y="514"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#0e4429">
           <title>2026-08-24: 1 contributions</title>
         </rect>
       
         <rect
-          x="776"
-          y="458"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#0e4429"
-        >
+          x="859"
+          y="528"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#0e4429">
           <title>2026-08-25: 6 contributions</title>
         </rect>
       
         <rect
-          x="776"
-          y="472"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="859"
+          y="542"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-08-26: 0 contributions</title>
         </rect>
       
         <rect
-          x="776"
-          y="486"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="859"
+          y="556"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-08-27: 0 contributions</title>
         </rect>
       
         <rect
-          x="776"
-          y="500"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="859"
+          y="570"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-08-28: 0 contributions</title>
         </rect>
       
         <rect
-          x="776"
-          y="514"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="859"
+          y="584"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-08-29: 0 contributions</title>
         </rect>
       
         <rect
-          x="790"
-          y="430"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#161b22"
-        >
+          x="873"
+          y="500"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#161b22">
           <title>2026-08-30: 0 contributions</title>
         </rect>
       
         <rect
-          x="790"
-          y="444"
-          width="11"
-          height="11"
-          rx="3"
-          fill="#006d32"
-        >
-          <title>2026-08-31: 11 contributions</title>
+          x="873"
+          y="514"
+          width="10"
+          height="10"
+          rx="2.5"
+          fill="#006d32">
+          <title>2026-08-31: 13 contributions</title>
         </rect>
       
+  
 
   <!-- LEGEND -->
 
   <text
-    x="850"
-    y="590"
+    x="930"
+    y="600"
     fill="#8b949e"
     font-family="monospace"
     font-size="9">
@@ -4407,69 +4194,450 @@
   </text>
 
   <rect
-    x="885"
-    y="581"
-    width="11"
-    height="11"
+    x="965"
+    y="591"
+    width="10"
+    height="10"
     rx="2"
     fill="#161b22"/>
 
   <rect
-    x="902"
-    y="581"
-    width="11"
-    height="11"
+    x="981"
+    y="591"
+    width="10"
+    height="10"
     rx="2"
     fill="#0e4429"/>
 
   <rect
-    x="919"
-    y="581"
-    width="11"
-    height="11"
+    x="997"
+    y="591"
+    width="10"
+    height="10"
     rx="2"
     fill="#006d32"/>
 
   <rect
-    x="936"
-    y="581"
-    width="11"
-    height="11"
+    x="1013"
+    y="591"
+    width="10"
+    height="10"
     rx="2"
     fill="#26a641"/>
 
   <rect
-    x="953"
-    y="581"
-    width="11"
-    height="11"
+    x="1029"
+    y="591"
+    width="10"
+    height="10"
     rx="2"
     fill="#39d353"/>
 
   <text
-    x="972"
-    y="590"
+    x="1047"
+    y="600"
     fill="#8b949e"
     font-family="monospace"
     font-size="9">
     MORE
   </text>
 
+  <!-- LOWER PANELS -->
+
+  <line
+    x1="55"
+    y1="625"
+    x2="1145"
+    y2="625"
+    stroke="#21262d"/>
+
+  <!-- LANGUAGES -->
+
+  <rect
+    x="55"
+    y="645"
+    width="465"
+    height="235"
+    rx="14"
+    fill="#161b22"
+    stroke="#21262d"/>
+
+  <text
+    x="80"
+    y="676"
+    fill="#f0f6fc"
+    font-family="monospace"
+    font-size="13"
+    font-weight="700">
+    LANGUAGE ANALYTICS
+  </text>
+
+  <text
+    x="80"
+    y="696"
+    fill="#6e7681"
+    font-family="monospace"
+    font-size="9">
+    AGGREGATED FROM REPOSITORIES
+  </text>
+
+  
+      <text
+        x="55"
+        y="650"
+        fill="#f0f6fc"
+        font-family="monospace"
+        font-size="11">
+        HTML
+      </text>
+
+      <rect
+        x="165"
+        y="640"
+        width="220"
+        height="8"
+        rx="4"
+        fill="#161b22"/>
+
+      <rect
+        x="165"
+        y="640"
+        width="94.37783309240851"
+        height="8"
+        rx="4"
+        fill="#e34c26"/>
+
+      <text
+        x="400"
+        y="650"
+        fill="#8b949e"
+        font-family="monospace"
+        font-size="10">
+        42.9%
+      </text>
+    
+      <text
+        x="55"
+        y="688"
+        fill="#f0f6fc"
+        font-family="monospace"
+        font-size="11">
+        TeX
+      </text>
+
+      <rect
+        x="165"
+        y="678"
+        width="220"
+        height="8"
+        rx="4"
+        fill="#161b22"/>
+
+      <rect
+        x="165"
+        y="678"
+        width="49.61322174572888"
+        height="8"
+        rx="4"
+        fill="#8b949e"/>
+
+      <text
+        x="400"
+        y="688"
+        fill="#8b949e"
+        font-family="monospace"
+        font-size="10">
+        22.6%
+      </text>
+    
+      <text
+        x="55"
+        y="726"
+        fill="#f0f6fc"
+        font-family="monospace"
+        font-size="11">
+        Jupyter Notebook
+      </text>
+
+      <rect
+        x="165"
+        y="716"
+        width="220"
+        height="8"
+        rx="4"
+        fill="#161b22"/>
+
+      <rect
+        x="165"
+        y="716"
+        width="32.20379438678824"
+        height="8"
+        rx="4"
+        fill="#8b949e"/>
+
+      <text
+        x="400"
+        y="726"
+        fill="#8b949e"
+        font-family="monospace"
+        font-size="10">
+        14.6%
+      </text>
+    
+      <text
+        x="55"
+        y="764"
+        fill="#f0f6fc"
+        font-family="monospace"
+        font-size="11">
+        TypeScript
+      </text>
+
+      <rect
+        x="165"
+        y="754"
+        width="220"
+        height="8"
+        rx="4"
+        fill="#161b22"/>
+
+      <rect
+        x="165"
+        y="754"
+        width="24.12383600956403"
+        height="8"
+        rx="4"
+        fill="#3178c6"/>
+
+      <text
+        x="400"
+        y="764"
+        fill="#8b949e"
+        font-family="monospace"
+        font-size="10">
+        11.0%
+      </text>
+    
+      <text
+        x="55"
+        y="802"
+        fill="#f0f6fc"
+        font-family="monospace"
+        font-size="11">
+        JavaScript
+      </text>
+
+      <rect
+        x="165"
+        y="792"
+        width="220"
+        height="8"
+        rx="4"
+        fill="#161b22"/>
+
+      <rect
+        x="165"
+        y="792"
+        width="11.50182262504476"
+        height="8"
+        rx="4"
+        fill="#f1e05a"/>
+
+      <text
+        x="400"
+        y="802"
+        fill="#8b949e"
+        font-family="monospace"
+        font-size="10">
+        5.2%
+      </text>
+    
+      <text
+        x="55"
+        y="840"
+        fill="#f0f6fc"
+        font-family="monospace"
+        font-size="11">
+        Python
+      </text>
+
+      <rect
+        x="165"
+        y="830"
+        width="220"
+        height="8"
+        rx="4"
+        fill="#161b22"/>
+
+      <rect
+        x="165"
+        y="830"
+        width="4"
+        height="8"
+        rx="4"
+        fill="#3572A5"/>
+
+      <text
+        x="400"
+        y="840"
+        fill="#8b949e"
+        font-family="monospace"
+        font-size="10">
+        1.2%
+      </text>
+    
+
+  <!-- PROJECTS -->
+
+  <rect
+    x="545"
+    y="645"
+    width="600"
+    height="235"
+    rx="14"
+    fill="#161b22"
+    stroke="#21262d"/>
+
+  <text
+    x="570"
+    y="676"
+    fill="#f0f6fc"
+    font-family="monospace"
+    font-size="13"
+    font-weight="700">
+    PROJECT HIGHLIGHTS
+  </text>
+
+  <text
+    x="570"
+    y="696"
+    fill="#6e7681"
+    font-family="monospace"
+    font-size="9">
+    TOP PUBLIC REPOSITORIES
+  </text>
+
+  
+      <text
+        x="545"
+        y="650"
+        fill="#58a6ff"
+        font-family="monospace"
+        font-size="12"
+        font-weight="700">
+        Toyota-Stock-Price-An...
+      </text>
+
+      <text
+        x="545"
+        y="668"
+        fill="#8b949e"
+        font-family="monospace"
+        font-size="9">
+        Jupyter Notebook • ★ 4
+      </text>
+
+      <line
+        x1="545"
+        y1="680"
+        x2="1140"
+        y2="680"
+        stroke="#21262d"/>
+    
+      <text
+        x="545"
+        y="705"
+        fill="#58a6ff"
+        font-family="monospace"
+        font-size="12"
+        font-weight="700">
+        QR-Generator
+      </text>
+
+      <text
+        x="545"
+        y="723"
+        fill="#8b949e"
+        font-family="monospace"
+        font-size="9">
+        HTML • ★ 2
+      </text>
+
+      <line
+        x1="545"
+        y1="735"
+        x2="1140"
+        y2="735"
+        stroke="#21262d"/>
+    
+      <text
+        x="545"
+        y="760"
+        fill="#58a6ff"
+        font-family="monospace"
+        font-size="12"
+        font-weight="700">
+        Gym-Management
+      </text>
+
+      <text
+        x="545"
+        y="778"
+        fill="#8b949e"
+        font-family="monospace"
+        font-size="9">
+        HTML • ★ 1
+      </text>
+
+      <line
+        x1="545"
+        y1="790"
+        x2="1140"
+        y2="790"
+        stroke="#21262d"/>
+    
+      <text
+        x="545"
+        y="815"
+        fill="#58a6ff"
+        font-family="monospace"
+        font-size="12"
+        font-weight="700">
+        Kurukshetra
+      </text>
+
+      <text
+        x="545"
+        y="833"
+        fill="#8b949e"
+        font-family="monospace"
+        font-size="9">
+        HTML • ★ 1
+      </text>
+
+      <line
+        x1="545"
+        y1="845"
+        x2="1140"
+        y2="845"
+        stroke="#21262d"/>
+    
+
   <!-- FOOTER -->
 
   <line
     x1="55"
-    y1="610"
-    x2="1045"
-    y2="610"
+    y1="900"
+    x2="1145"
+    y2="900"
     stroke="#21262d"/>
 
   <text
     x="55"
-    y="628"
-    fill="#3fb950"
+    y="920"
+    fill="#39d353"
     font-family="monospace"
-    font-size="10">
+    font-size="9">
     &gt; LIVE GITHUB DATA • UPDATED DAILY • PRIYANSHU.V
   </text>
 
