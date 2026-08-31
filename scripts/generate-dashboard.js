@@ -8,12 +8,18 @@ if (!githubToken) {
   throw new Error("GITHUB_TOKEN is not available.");
 }
 
-async function fetchJSON(url, options = {}) {
+const API_HEADERS = {
+  Accept: "application/vnd.github+json",
+  Authorization: `Bearer ${githubToken}`,
+  "X-GitHub-Api-Version": "2022-11-28",
+  "User-Agent": "priyanshu-github-dashboard"
+};
+
+async function githubRequest(url, options = {}) {
   const response = await fetch(url, {
     ...options,
     headers: {
-      Accept: "application/vnd.github+json",
-      "User-Agent": "github-profile-dashboard",
+      ...API_HEADERS,
       ...(options.headers || {})
     }
   });
@@ -22,15 +28,17 @@ async function fetchJSON(url, options = {}) {
     const body = await response.text();
 
     throw new Error(
-      `Request failed: ${response.status} ${response.statusText}\n${body}`
+      `GitHub request failed: ${response.status} ${response.statusText}\n${body}`
     );
   }
 
   return response.json();
 }
 
-async function fetchGitHubProfile() {
-  return fetchJSON(`https://api.github.com/users/${username}`);
+async function fetchProfile() {
+  return githubRequest(
+    `https://api.github.com/users/${username}`
+  );
 }
 
 async function fetchRepositories() {
@@ -38,7 +46,7 @@ async function fetchRepositories() {
   let page = 1;
 
   while (true) {
-    const repos = await fetchJSON(
+    const repos = await githubRequest(
       `https://api.github.com/users/${username}/repos?per_page=100&page=${page}&type=owner&sort=updated`
     );
 
@@ -54,22 +62,85 @@ async function fetchRepositories() {
   return repositories;
 }
 
+async function fetchRepositoryLanguages(repo) {
+  try {
+    return await githubRequest(
+      `https://api.github.com/repos/${repo.full_name}/languages`
+    );
+  } catch (error) {
+    console.warn(
+      `Could not fetch languages for ${repo.full_name}: ${error.message}`
+    );
+
+    return {};
+  }
+}
+
+async function fetchLanguageStatistics(repositories) {
+  const totals = {};
+
+  const languageResults = await Promise.all(
+    repositories.map((repo) =>
+      fetchRepositoryLanguages(repo)
+    )
+  );
+
+  languageResults.forEach((languages) => {
+    Object.entries(languages).forEach(
+      ([language, bytes]) => {
+        totals[language] =
+          (totals[language] || 0) + bytes;
+      }
+    );
+  });
+
+  const totalBytes = Object.values(totals).reduce(
+    (sum, value) => sum + value,
+    0
+  );
+
+  if (totalBytes === 0) {
+    return [];
+  }
+
+  return Object.entries(totals)
+    .map(([language, bytes]) => ({
+      language,
+      bytes,
+      percentage:
+        (bytes / totalBytes) * 100
+    }))
+    .sort((a, b) => b.bytes - a.bytes)
+    .slice(0, 6);
+}
+
 async function fetchContributions() {
   const today = new Date();
 
   const from = new Date(today);
-  from.setUTCFullYear(from.getUTCFullYear() - 1);
+  from.setUTCFullYear(
+    from.getUTCFullYear() - 1
+  );
+  from.setUTCHours(0, 0, 0, 0);
 
   const to = new Date(today);
   to.setUTCHours(23, 59, 59, 999);
 
   const query = `
-    query($login: String!, $from: DateTime!, $to: DateTime!) {
+    query(
+      $login: String!,
+      $from: DateTime!,
+      $to: DateTime!
+    ) {
       user(login: $login) {
-        contributionsCollection(from: $from, to: $to) {
+        contributionsCollection(
+          from: $from
+          to: $to
+        ) {
           contributionCalendar {
             totalContributions
             weeks {
+              firstDay
               contributionDays {
                 date
                 contributionCount
@@ -82,33 +153,42 @@ async function fetchContributions() {
     }
   `;
 
-  const result = await fetchJSON("https://api.github.com/graphql", {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${githubToken}`,
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
-      query,
-      variables: {
-        login: username,
-        from: from.toISOString(),
-        to: to.toISOString()
-      }
-    })
-  });
+  const result = await githubRequest(
+    "https://api.github.com/graphql",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        query,
+        variables: {
+          login: username,
+          from: from.toISOString(),
+          to: to.toISOString()
+        }
+      })
+    }
+  );
 
   if (result.errors) {
     throw new Error(
-      `GitHub GraphQL error:\n${JSON.stringify(result.errors, null, 2)}`
+      `GitHub GraphQL error:\n${JSON.stringify(
+        result.errors,
+        null,
+        2
+      )}`
     );
   }
 
   const calendar =
-    result.data?.user?.contributionsCollection?.contributionCalendar;
+    result.data?.user?.contributionsCollection
+      ?.contributionCalendar;
 
   if (!calendar) {
-    throw new Error("Contribution calendar was not returned.");
+    throw new Error(
+      "Contribution calendar was not returned."
+    );
   }
 
   return calendar;
@@ -117,19 +197,30 @@ async function fetchContributions() {
 function flattenContributionDays(calendar) {
   return calendar.weeks
     .flatMap((week) => week.contributionDays)
-    .sort((a, b) => a.date.localeCompare(b.date));
+    .sort((a, b) =>
+      a.date.localeCompare(b.date)
+    );
 }
 
-function dateDifferenceInDays(a, b) {
-  const first = new Date(`${a}T00:00:00Z`);
-  const second = new Date(`${b}T00:00:00Z`);
+function differenceInDays(start, end) {
+  const first = new Date(
+    `${start}T00:00:00Z`
+  );
 
-  return Math.round((second - first) / 86400000);
+  const second = new Date(
+    `${end}T00:00:00Z`
+  );
+
+  return Math.round(
+    (second - first) / 86400000
+  );
 }
 
 function calculateStreaks(days) {
   const activeDays = days
-    .filter((day) => day.contributionCount > 0)
+    .filter(
+      (day) => day.contributionCount > 0
+    )
     .map((day) => day.date);
 
   if (activeDays.length === 0) {
@@ -144,7 +235,7 @@ function calculateStreaks(days) {
 
   for (let i = 1; i < activeDays.length; i++) {
     if (
-      dateDifferenceInDays(
+      differenceInDays(
         activeDays[i - 1],
         activeDays[i]
       ) === 1
@@ -159,40 +250,47 @@ function calculateStreaks(days) {
     }
   }
 
-  const today = new Date();
-  const todayString = today.toISOString().slice(0, 10);
+  const today = new Date()
+    .toISOString()
+    .slice(0, 10);
 
-  const yesterdayDate = new Date(today);
-  yesterdayDate.setUTCDate(
-    yesterdayDate.getUTCDate() - 1
+  const yesterday = new Date();
+
+  yesterday.setUTCDate(
+    yesterday.getUTCDate() - 1
   );
 
-  const yesterdayString =
-    yesterdayDate.toISOString().slice(0, 10);
+  const yesterdayString = yesterday
+    .toISOString()
+    .slice(0, 10);
+
+  let anchor = null;
+
+  if (activeDays.includes(today)) {
+    anchor = today;
+  } else if (
+    activeDays.includes(yesterdayString)
+  ) {
+    anchor = yesterdayString;
+  }
 
   let currentStreak = 0;
 
-  let startingDate = null;
+  if (anchor) {
+    let index =
+      activeDays.indexOf(anchor);
 
-  if (activeDays.includes(todayString)) {
-    startingDate = todayString;
-  } else if (activeDays.includes(yesterdayString)) {
-    startingDate = yesterdayString;
-  }
-
-  if (startingDate) {
-    let cursor = activeDays.indexOf(startingDate);
     currentStreak = 1;
 
     while (
-      cursor > 0 &&
-      dateDifferenceInDays(
-        activeDays[cursor - 1],
-        activeDays[cursor]
+      index > 0 &&
+      differenceInDays(
+        activeDays[index - 1],
+        activeDays[index]
       ) === 1
     ) {
       currentStreak++;
-      cursor--;
+      index--;
     }
   }
 
@@ -211,12 +309,45 @@ function escapeXML(value) {
     .replace(/'/g, "&apos;");
 }
 
+function shortRepositoryName(name) {
+  const max = 24;
+
+  if (name.length <= max) {
+    return name;
+  }
+
+  return `${name.slice(0, max - 3)}...`;
+}
+
+function languageColor(language) {
+  const colors = {
+    JavaScript: "#f1e05a",
+    TypeScript: "#3178c6",
+    Python: "#3572A5",
+    "C++": "#f34b7d",
+    Java: "#b07219",
+    HTML: "#e34c26",
+    CSS: "#563d7c",
+    SQL: "#e38c00",
+    Shell: "#89e051",
+    Dart: "#00B4AB",
+    Kotlin: "#A97BFF",
+    Go: "#00ADD8",
+    Rust: "#dea584",
+    PHP: "#4F5D95",
+    C: "#555555"
+  };
+
+  return colors[language] || "#8b949e";
+}
+
 function contributionColor(count, maxCount) {
   if (count === 0) {
     return "#161b22";
   }
 
-  const ratio = count / Math.max(maxCount, 1);
+  const ratio =
+    count / Math.max(maxCount, 1);
 
   if (ratio <= 0.25) {
     return "#0e4429";
@@ -234,7 +365,10 @@ function contributionColor(count, maxCount) {
 }
 
 function buildContributionHeatmap(calendar) {
-  const allDays = flattenContributionDays(calendar);
+  const weeks = calendar.weeks;
+
+  const allDays =
+    flattenContributionDays(calendar);
 
   const maxCount = Math.max(
     ...allDays.map(
@@ -243,38 +377,39 @@ function buildContributionHeatmap(calendar) {
     1
   );
 
-  const startX = 62;
-  const startY = 430;
+  const startX = 145;
+  const startY = 500;
 
-  const cellSize = 11;
-  const gap = 3;
+  const cellSize = 10;
+  const gap = 4;
   const step = cellSize + gap;
 
-  let svg = "";
+  let cells = "";
 
-  calendar.weeks.forEach((week, weekIndex) => {
+  weeks.forEach((week, weekIndex) => {
     week.contributionDays.forEach((day) => {
       const x =
-        startX + weekIndex * step;
+        startX +
+        weekIndex * step;
 
       const y =
-        startY + day.weekday * step;
+        startY +
+        day.weekday * step;
 
-      const fill = contributionColor(
-        day.contributionCount,
-        maxCount
-      );
-
-      svg += `
+      cells += `
         <rect
           x="${x}"
           y="${y}"
           width="${cellSize}"
           height="${cellSize}"
-          rx="3"
-          fill="${fill}"
-        >
-          <title>${escapeXML(day.date)}: ${escapeXML(
+          rx="2.5"
+          fill="${contributionColor(
+            day.contributionCount,
+            maxCount
+          )}">
+          <title>${escapeXML(
+            day.date
+          )}: ${escapeXML(
         day.contributionCount
       )} contributions</title>
         </rect>
@@ -282,29 +417,284 @@ function buildContributionHeatmap(calendar) {
     });
   });
 
-  return svg;
+  let monthLabels = "";
+
+  weeks.forEach((week, index) => {
+    if (index === 0) {
+      return;
+    }
+
+    const firstDay = week.firstDay;
+
+    const date =
+      new Date(`${firstDay}T00:00:00Z`);
+
+    const previous =
+      new Date(
+        `${weeks[index - 1].firstDay}T00:00:00Z`
+      );
+
+    if (
+      date.getUTCMonth() !==
+      previous.getUTCMonth()
+    ) {
+      const monthName =
+        date.toLocaleString("en-US", {
+          month: "short",
+          timeZone: "UTC"
+        });
+
+      const x =
+        startX +
+        index * step;
+
+      monthLabels += `
+        <text
+          x="${x}"
+          y="486"
+          fill="#8b949e"
+          font-family="monospace"
+          font-size="10">
+          ${monthName}
+        </text>
+      `;
+    }
+  });
+
+  const weekdayLabels = `
+    <text x="102" y="510"
+      fill="#8b949e"
+      font-family="monospace"
+      font-size="9">
+      M
+    </text>
+
+    <text x="102" y="538"
+      fill="#8b949e"
+      font-family="monospace"
+      font-size="9">
+      W
+    </text>
+
+    <text x="102" y="566"
+      fill="#8b949e"
+      font-family="monospace"
+      font-size="9">
+      F
+    </text>
+  `;
+
+  return `
+    ${monthLabels}
+    ${weekdayLabels}
+    ${cells}
+  `;
+}
+
+function buildLanguagePanel(languages) {
+  if (languages.length === 0) {
+    return `
+      <text
+        x="55"
+        y="655"
+        fill="#8b949e"
+        font-family="monospace"
+        font-size="12">
+        No language data available
+      </text>
+    `;
+  }
+
+  let output = "";
+
+  const barWidth = 220;
+
+  languages.forEach((item, index) => {
+    const y =
+      650 + index * 38;
+
+    const width =
+      Math.max(
+        4,
+        (item.percentage / 100) *
+          barWidth
+      );
+
+    const color =
+      languageColor(item.language);
+
+    output += `
+      <text
+        x="55"
+        y="${y}"
+        fill="#f0f6fc"
+        font-family="monospace"
+        font-size="11">
+        ${escapeXML(
+          item.language
+        )}
+      </text>
+
+      <rect
+        x="165"
+        y="${y - 10}"
+        width="${barWidth}"
+        height="8"
+        rx="4"
+        fill="#161b22"/>
+
+      <rect
+        x="165"
+        y="${y - 10}"
+        width="${width}"
+        height="8"
+        rx="4"
+        fill="${color}"/>
+
+      <text
+        x="400"
+        y="${y}"
+        fill="#8b949e"
+        font-family="monospace"
+        font-size="10">
+        ${item.percentage.toFixed(
+          1
+        )}%
+      </text>
+    `;
+  });
+
+  return output;
+}
+
+function buildRepositoryPanel(
+  repositories
+) {
+  const filtered =
+    repositories
+      .filter(
+        (repo) =>
+          !repo.fork &&
+          !repo.archived
+      )
+      .sort((a, b) => {
+        if (
+          b.stargazers_count !==
+          a.stargazers_count
+        ) {
+          return (
+            b.stargazers_count -
+            a.stargazers_count
+          );
+        }
+
+        return (
+          new Date(b.updated_at) -
+          new Date(a.updated_at)
+        );
+      })
+      .slice(0, 4);
+
+  let output = "";
+
+  filtered.forEach((repo, index) => {
+    const y =
+      650 + index * 55;
+
+    const language =
+      repo.language || "N/A";
+
+    const stars =
+      repo.stargazers_count;
+
+    const name =
+      shortRepositoryName(
+        repo.name
+      );
+
+    output += `
+      <text
+        x="545"
+        y="${y}"
+        fill="#58a6ff"
+        font-family="monospace"
+        font-size="12"
+        font-weight="700">
+        ${escapeXML(name)}
+      </text>
+
+      <text
+        x="545"
+        y="${y + 18}"
+        fill="#8b949e"
+        font-family="monospace"
+        font-size="9">
+        ${escapeXML(
+          language
+        )} • ★ ${escapeXML(
+      stars
+    )}
+      </text>
+
+      <line
+        x1="545"
+        y1="${y + 30}"
+        x2="1140"
+        y2="${y + 30}"
+        stroke="#21262d"/>
+    `;
+  });
+
+  if (filtered.length === 0) {
+    output += `
+      <text
+        x="545"
+        y="650"
+        fill="#8b949e"
+        font-family="monospace"
+        font-size="12">
+        No public repositories found
+      </text>
+    `;
+  }
+
+  return output;
 }
 
 function buildDashboard(
   profile,
   repositories,
   calendar,
-  streaks
+  streaks,
+  languages
 ) {
-  const totalStars = repositories.reduce(
-    (total, repo) =>
-      total + repo.stargazers_count,
-    0
-  );
+  const totalStars =
+    repositories.reduce(
+      (sum, repo) =>
+        sum + repo.stargazers_count,
+      0
+    );
 
   const heatmap =
-    buildContributionHeatmap(calendar);
+    buildContributionHeatmap(
+      calendar
+    );
+
+  const languagePanel =
+    buildLanguagePanel(
+      languages
+    );
+
+  const repositoryPanel =
+    buildRepositoryPanel(
+      repositories
+    );
 
   return `
 <svg
-  width="1100"
-  height="640"
-  viewBox="0 0 1100 640"
+  width="1200"
+  height="930"
+  viewBox="0 0 1200 930"
   xmlns="http://www.w3.org/2000/svg">
 
   <defs>
@@ -319,12 +709,12 @@ function buildDashboard(
       <stop
         offset="0%"
         stop-color="#58a6ff"
-        stop-opacity="0.25"/>
+        stop-opacity="0.22"/>
 
       <stop
         offset="50%"
         stop-color="#bc8cff"
-        stop-opacity="0.10"/>
+        stop-opacity="0.12"/>
 
       <stop
         offset="100%"
@@ -333,41 +723,58 @@ function buildDashboard(
 
     </linearGradient>
 
+    <linearGradient
+      id="lineGlow"
+      x1="0"
+      y1="0"
+      x2="1"
+      y2="0">
+
+      <stop
+        offset="0%"
+        stop-color="#58a6ff"
+        stop-opacity="0.8"/>
+
+      <stop
+        offset="100%"
+        stop-color="#39d353"
+        stop-opacity="0.05"/>
+
+    </linearGradient>
+
   </defs>
 
   <!-- BACKGROUND -->
 
   <rect
-    width="1100"
-    height="640"
-    rx="22"
+    width="1200"
+    height="930"
+    rx="24"
     fill="#0d1117"/>
 
   <rect
     x="1"
     y="1"
-    width="1098"
-    height="638"
-    rx="22"
+    width="1198"
+    height="928"
+    rx="24"
     fill="none"
     stroke="#30363d"
     stroke-width="2"/>
 
-  <!-- HEADER GLOW -->
+  <!-- HEADER -->
 
   <rect
     x="25"
     y="25"
-    width="1050"
-    height="115"
-    rx="16"
+    width="1150"
+    height="120"
+    rx="18"
     fill="url(#headerGlow)"/>
-
-  <!-- HEADER -->
 
   <text
     x="55"
-    y="70"
+    y="68"
     fill="#f0f6fc"
     font-family="monospace"
     font-size="30"
@@ -377,207 +784,224 @@ function buildDashboard(
 
   <text
     x="55"
-    y="101"
+    y="98"
     fill="#8b949e"
     font-family="monospace"
     font-size="14">
-    CSE STUDENT • DATA SCIENCE • MACHINE LEARNING • BUILDER
+    CSE • DATA SCIENCE • MACHINE LEARNING • SOFTWARE
+  </text>
+
+  <text
+    x="55"
+    y="123"
+    fill="#6e7681"
+    font-family="monospace"
+    font-size="11">
+    github.com/priyanshu050307
   </text>
 
   <circle
-    cx="955"
-    cy="65"
+    cx="1055"
+    cy="67"
     r="7"
-    fill="#3fb950"/>
+    fill="#39d353"/>
 
   <text
-    x="975"
-    y="70"
-    fill="#3fb950"
+    x="1072"
+    y="72"
+    fill="#39d353"
     font-family="monospace"
-    font-size="13">
+    font-size="12">
     BUILDING
   </text>
 
   <line
     x1="55"
-    y1="130"
-    x2="1045"
-    y2="130"
-    stroke="#30363d"/>
+    y1="145"
+    x2="1145"
+    y2="145"
+    stroke="url(#lineGlow)"/>
 
-  <!-- PROFILE ANALYTICS -->
+  <!-- PROFILE -->
 
   <text
     x="55"
-    y="165"
-    fill="#8b949e"
+    y="176"
+    fill="#6e7681"
     font-family="monospace"
-    font-size="12">
-    GITHUB // PROFILE ANALYTICS
+    font-size="11">
+    // GITHUB PROFILE
   </text>
 
-  <!-- CARD 1 -->
+  <!-- STAT CARD 1 -->
 
   <rect
     x="55"
-    y="185"
-    width="225"
+    y="195"
+    width="255"
     height="105"
-    rx="12"
+    rx="14"
     fill="#161b22"
     stroke="#21262d"/>
 
   <text
     x="75"
-    y="217"
+    y="222"
     fill="#8b949e"
     font-family="monospace"
-    font-size="11">
+    font-size="10">
     REPOSITORIES
   </text>
 
   <text
     x="75"
-    y="264"
+    y="270"
     fill="#58a6ff"
     font-family="monospace"
     font-size="36"
     font-weight="700">
-    ${escapeXML(profile.public_repos)}
+    ${escapeXML(
+      profile.public_repos
+    )}
   </text>
 
-  <!-- CARD 2 -->
+  <!-- STAT CARD 2 -->
 
   <rect
-    x="295"
-    y="185"
-    width="225"
+    x="330"
+    y="195"
+    width="255"
     height="105"
-    rx="12"
+    rx="14"
     fill="#161b22"
     stroke="#21262d"/>
 
   <text
-    x="315"
-    y="217"
+    x="350"
+    y="222"
     fill="#8b949e"
     font-family="monospace"
-    font-size="11">
+    font-size="10">
     CONTRIBUTIONS
   </text>
 
   <text
-    x="315"
-    y="264"
+    x="350"
+    y="270"
     fill="#39d353"
     font-family="monospace"
     font-size="36"
     font-weight="700">
-    ${escapeXML(calendar.totalContributions)}
+    ${escapeXML(
+      calendar.totalContributions
+    )}
   </text>
 
-  <!-- CARD 3 -->
+  <!-- STAT CARD 3 -->
 
   <rect
-    x="535"
-    y="185"
-    width="225"
+    x="605"
+    y="195"
+    width="255"
     height="105"
-    rx="12"
+    rx="14"
     fill="#161b22"
     stroke="#21262d"/>
 
   <text
-    x="555"
-    y="217"
+    x="625"
+    y="222"
     fill="#8b949e"
     font-family="monospace"
-    font-size="11">
-    STARS
+    font-size="10">
+    TOTAL STARS
   </text>
 
   <text
-    x="555"
-    y="264"
+    x="625"
+    y="270"
     fill="#e3b341"
     font-family="monospace"
     font-size="36"
     font-weight="700">
-    ${escapeXML(totalStars)}
+    ${escapeXML(
+      totalStars
+    )}
   </text>
 
-  <!-- CARD 4 -->
+  <!-- STAT CARD 4 -->
 
   <rect
-    x="775"
-    y="185"
-    width="270"
+    x="880"
+    y="195"
+    width="265"
     height="105"
+    rx="14"
+    fill="#161b22"
+    stroke="#21262d"/>
+
+  <text
+    x="900"
+    y="222"
+    fill="#8b949e"
+    font-family="monospace"
+    font-size="10">
+    FOLLOWERS
+  </text>
+
+  <text
+    x="900"
+    y="270"
+    fill="#f85149"
+    font-family="monospace"
+    font-size="36"
+    font-weight="700">
+    ${escapeXML(
+      profile.followers
+    )}
+  </text>
+
+  <text
+    x="1015"
+    y="271"
+    fill="#8b949e"
+    font-family="monospace"
+    font-size="10">
+    / ${escapeXML(
+      profile.following
+    )} FOLLOWING
+  </text>
+
+  <!-- STREAK -->
+
+  <line
+    x1="55"
+    y1="330"
+    x2="1145"
+    y2="330"
+    stroke="#21262d"/>
+
+  <text
+    x="55"
+    y="360"
+    fill="#6e7681"
+    font-family="monospace"
+    font-size="11">
+    // CONTRIBUTION INTELLIGENCE
+  </text>
+
+  <rect
+    x="55"
+    y="380"
+    width="330"
+    height="72"
     rx="12"
     fill="#161b22"
     stroke="#21262d"/>
 
   <text
-    x="795"
-    y="217"
-    fill="#8b949e"
-    font-family="monospace"
-    font-size="11">
-    FOLLOWERS
-  </text>
-
-  <text
-    x="795"
-    y="264"
-    fill="#f85149"
-    font-family="monospace"
-    font-size="36"
-    font-weight="700">
-    ${escapeXML(profile.followers)}
-  </text>
-
-  <text
-    x="960"
-    y="265"
-    fill="#8b949e"
-    font-family="monospace"
-    font-size="11">
-    / ${escapeXML(profile.following)} FOLLOWING
-  </text>
-
-  <!-- CONTRIBUTION SECTION -->
-
-  <line
-    x1="55"
-    y1="320"
-    x2="1045"
-    y2="320"
-    stroke="#30363d"/>
-
-  <text
-    x="55"
-    y="350"
-    fill="#8b949e"
-    font-family="monospace"
-    font-size="12">
-    CONTRIBUTION // ACTIVITY
-  </text>
-
-  <!-- STREAK -->
-
-  <rect
-    x="55"
-    y="365"
-    width="255"
-    height="55"
-    rx="10"
-    fill="#161b22"
-    stroke="#21262d"/>
-
-  <text
-    x="72"
-    y="387"
+    x="75"
+    y="405"
     fill="#8b949e"
     font-family="monospace"
     font-size="10">
@@ -585,29 +1009,29 @@ function buildDashboard(
   </text>
 
   <text
-    x="72"
-    y="407"
+    x="75"
+    y="432"
     fill="#f85149"
     font-family="monospace"
-    font-size="18"
+    font-size="21"
     font-weight="700">
-    ${escapeXML(streaks.currentStreak)} DAYS
+    ${escapeXML(
+      streaks.currentStreak
+    )} DAYS
   </text>
 
-  <!-- BEST STREAK -->
-
   <rect
-    x="325"
-    y="365"
-    width="255"
-    height="55"
-    rx="10"
+    x="405"
+    y="380"
+    width="330"
+    height="72"
+    rx="12"
     fill="#161b22"
     stroke="#21262d"/>
 
   <text
-    x="342"
-    y="387"
+    x="425"
+    y="405"
     fill="#8b949e"
     font-family="monospace"
     font-size="10">
@@ -615,59 +1039,59 @@ function buildDashboard(
   </text>
 
   <text
-    x="342"
-    y="407"
+    x="425"
+    y="432"
     fill="#e3b341"
     font-family="monospace"
-    font-size="18"
+    font-size="21"
     font-weight="700">
-    ${escapeXML(streaks.longestStreak)} DAYS
+    ${escapeXML(
+      streaks.longestStreak
+    )} DAYS
   </text>
 
-  <!-- STATUS -->
-
   <rect
-    x="595"
-    y="365"
-    width="450"
-    height="55"
-    rx="10"
+    x="755"
+    y="380"
+    width="390"
+    height="72"
+    rx="12"
     fill="#161b22"
     stroke="#21262d"/>
 
   <circle
-    cx="620"
-    cy="393"
+    cx="781"
+    cy="416"
     r="6"
     fill="#39d353"/>
 
   <text
-    x="637"
-    y="398"
+    x="797"
+    y="421"
     fill="#39d353"
     font-family="monospace"
-    font-size="12">
+    font-size="11">
     SYSTEM ONLINE
   </text>
 
   <text
-    x="805"
-    y="398"
+    x="955"
+    y="421"
     fill="#8b949e"
     font-family="monospace"
-    font-size="11">
+    font-size="10">
     AUTO-GENERATED
   </text>
 
-  <!-- HEATMAP -->
+  <!-- CONTRIBUTION HEATMAP -->
 
   <text
     x="55"
-    y="448"
-    fill="#8b949e"
+    y="477"
+    fill="#6e7681"
     font-family="monospace"
-    font-size="12">
-    CONTRIBUTION MATRIX // LAST 12 MONTHS
+    font-size="11">
+    // CONTRIBUTION MATRIX • LAST 12 MONTHS
   </text>
 
   ${heatmap}
@@ -675,8 +1099,8 @@ function buildDashboard(
   <!-- LEGEND -->
 
   <text
-    x="850"
-    y="590"
+    x="930"
+    y="600"
     fill="#8b949e"
     font-family="monospace"
     font-size="9">
@@ -684,69 +1108,142 @@ function buildDashboard(
   </text>
 
   <rect
-    x="885"
-    y="581"
-    width="11"
-    height="11"
+    x="965"
+    y="591"
+    width="10"
+    height="10"
     rx="2"
     fill="#161b22"/>
 
   <rect
-    x="902"
-    y="581"
-    width="11"
-    height="11"
+    x="981"
+    y="591"
+    width="10"
+    height="10"
     rx="2"
     fill="#0e4429"/>
 
   <rect
-    x="919"
-    y="581"
-    width="11"
-    height="11"
+    x="997"
+    y="591"
+    width="10"
+    height="10"
     rx="2"
     fill="#006d32"/>
 
   <rect
-    x="936"
-    y="581"
-    width="11"
-    height="11"
+    x="1013"
+    y="591"
+    width="10"
+    height="10"
     rx="2"
     fill="#26a641"/>
 
   <rect
-    x="953"
-    y="581"
-    width="11"
-    height="11"
+    x="1029"
+    y="591"
+    width="10"
+    height="10"
     rx="2"
     fill="#39d353"/>
 
   <text
-    x="972"
-    y="590"
+    x="1047"
+    y="600"
     fill="#8b949e"
     font-family="monospace"
     font-size="9">
     MORE
   </text>
 
+  <!-- LOWER PANELS -->
+
+  <line
+    x1="55"
+    y1="625"
+    x2="1145"
+    y2="625"
+    stroke="#21262d"/>
+
+  <!-- LANGUAGES -->
+
+  <rect
+    x="55"
+    y="645"
+    width="465"
+    height="235"
+    rx="14"
+    fill="#161b22"
+    stroke="#21262d"/>
+
+  <text
+    x="80"
+    y="676"
+    fill="#f0f6fc"
+    font-family="monospace"
+    font-size="13"
+    font-weight="700">
+    LANGUAGE ANALYTICS
+  </text>
+
+  <text
+    x="80"
+    y="696"
+    fill="#6e7681"
+    font-family="monospace"
+    font-size="9">
+    AGGREGATED FROM REPOSITORIES
+  </text>
+
+  ${languagePanel}
+
+  <!-- PROJECTS -->
+
+  <rect
+    x="545"
+    y="645"
+    width="600"
+    height="235"
+    rx="14"
+    fill="#161b22"
+    stroke="#21262d"/>
+
+  <text
+    x="570"
+    y="676"
+    fill="#f0f6fc"
+    font-family="monospace"
+    font-size="13"
+    font-weight="700">
+    PROJECT HIGHLIGHTS
+  </text>
+
+  <text
+    x="570"
+    y="696"
+    fill="#6e7681"
+    font-family="monospace"
+    font-size="9">
+    TOP PUBLIC REPOSITORIES
+  </text>
+
+  ${repositoryPanel}
+
   <!-- FOOTER -->
 
   <line
     x1="55"
-    y1="610"
-    x2="1045"
-    y2="610"
+    y1="900"
+    x2="1145"
+    y2="900"
     stroke="#21262d"/>
 
   <text
     x="55"
-    y="628"
-    fill="#3fb950"
+    y="920"
+    fill="#39d353"
     font-family="monospace"
-    font-size="10">
+    font-size="9">
     &gt; LIVE GITHUB DATA • UPDATED DAILY • PRIYANSHU.V
   </text>
 
@@ -756,7 +1253,7 @@ function buildDashboard(
 
 async function main() {
   console.log(
-    `Generating dashboard for ${username}...`
+    `Starting dashboard generation for ${username}...`
   );
 
   const [
@@ -764,47 +1261,68 @@ async function main() {
     repositories,
     calendar
   ] = await Promise.all([
-    fetchGitHubProfile(),
+    fetchProfile(),
     fetchRepositories(),
     fetchContributions()
   ]);
 
+  console.log(
+    `Repositories loaded: ${repositories.length}`
+  );
+
+  const languages =
+    await fetchLanguageStatistics(
+      repositories
+    );
+
   const contributionDays =
-    flattenContributionDays(calendar);
+    flattenContributionDays(
+      calendar
+    );
 
   const streaks =
-    calculateStreaks(contributionDays);
+    calculateStreaks(
+      contributionDays
+    );
 
-  console.log("Profile:", {
-    repositories: profile.public_repos,
-    followers: profile.followers,
-    following: profile.following
+  console.log("Dashboard statistics:");
+  console.log({
+    repositories:
+      profile.public_repos,
+    followers:
+      profile.followers,
+    following:
+      profile.following,
+    contributions:
+      calendar.totalContributions,
+    currentStreak:
+      streaks.currentStreak,
+    longestStreak:
+      streaks.longestStreak,
+    languages:
+      languages.map(
+        (item) =>
+          `${item.language}: ${item.percentage.toFixed(
+            1
+          )}%`
+      )
   });
 
-  console.log(
-    "Contributions:",
-    calendar.totalContributions
-  );
-
-  console.log(
-    "Current streak:",
-    streaks.currentStreak
-  );
-
-  console.log(
-    "Longest streak:",
-    streaks.longestStreak
-  );
-
-  const dashboard = buildDashboard(
-    profile,
-    repositories,
-    calendar,
-    streaks
-  );
+  const dashboard =
+    buildDashboard(
+      profile,
+      repositories,
+      calendar,
+      streaks,
+      languages
+    );
 
   const outputDir =
-    path.join(__dirname, "..", "assets");
+    path.join(
+      __dirname,
+      "..",
+      "assets"
+    );
 
   if (!fs.existsSync(outputDir)) {
     fs.mkdirSync(outputDir, {
@@ -825,11 +1343,16 @@ async function main() {
   );
 
   console.log(
-    `Dashboard written to ${outputPath}`
+    `Dashboard successfully written to ${outputPath}`
   );
 }
 
 main().catch((error) => {
+  console.error(
+    "Dashboard generation failed:"
+  );
+
   console.error(error);
+
   process.exit(1);
 });
