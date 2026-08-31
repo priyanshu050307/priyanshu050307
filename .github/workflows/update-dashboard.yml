@@ -21,6 +21,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v7
+        with:
+          fetch-depth: 1
 
       - name: Setup Node.js
         uses: actions/setup-node@v7
@@ -34,11 +36,13 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: node scripts/generate-dashboard.js
 
-      - name: Check generated dashboard
+      - name: Validate dashboard
         run: |
           test -f assets/dashboard.svg
           test -s assets/dashboard.svg
-          echo "dashboard.svg generated successfully."
+          grep -q "<svg" assets/dashboard.svg
+          grep -q "</svg>" assets/dashboard.svg
+          echo "Dashboard validation passed."
 
       - name: Commit dashboard
         run: |
