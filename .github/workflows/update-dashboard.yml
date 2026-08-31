@@ -1,4 +1,4 @@
-name: Update GitHub Dashboard & Contribution Snake
+name: Update GitHub Dashboard
 
 on:
   workflow_dispatch:
@@ -15,7 +15,7 @@ concurrency:
 
 jobs:
   dashboard:
-    name: Generate dashboard and snake
+    name: Generate dashboard
     runs-on: ubuntu-latest
 
     steps:
@@ -36,33 +36,24 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: node scripts/generate-dashboard.js
 
-      - name: Generate contribution snake
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: node scripts/generate-snake.js
-
-      - name: Validate assets
+      - name: Validate dashboard
         run: |
           test -f assets/dashboard.svg
           test -s assets/dashboard.svg
           grep -q "<svg" assets/dashboard.svg
           grep -q "</svg>" assets/dashboard.svg
-          test -f assets/snake.svg
-          test -s assets/snake.svg
-          grep -q "<svg" assets/snake.svg
-          grep -q "</svg>" assets/snake.svg
-          echo "Asset validation passed."
+          echo "Dashboard validation passed."
 
-      - name: Commit dashboard and snake
+      - name: Commit dashboard
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          git add assets/dashboard.svg assets/snake.svg
+          git add assets/dashboard.svg
 
           if git diff --cached --quiet; then
-            echo "No dashboard or snake changes detected."
+            echo "No dashboard changes detected."
           else
-            git commit -m "Update GitHub dashboard & contribution snake [skip ci]"
+            git commit -m "Update GitHub dashboard [skip ci]"
             git push
           fi

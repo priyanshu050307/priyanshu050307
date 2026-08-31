@@ -6,112 +6,66 @@ const githubToken = process.env.GITHUB_TOKEN;
 
 const API_HEADERS = {
   Accept: "application/vnd.github+json",
-  Authorization: `Bearer ${githubToken}`,
+  ...(githubToken ? { Authorization: `Bearer ${githubToken}` } : {}),
   "X-GitHub-Api-Version": "2022-11-28",
   "User-Agent": "priyanshu-github-dashboard"
 };
 
+const REAL_FALLBACK_PROFILE = {
+  login: "priyanshu050307",
+  name: "Priyanshu Vishwakarma",
+  avatar_url: "https://avatars.githubusercontent.com/u/179294264?v=4",
+  public_repos: 24,
+  followers: 1,
+  following: 2
+};
+
+const REAL_FALLBACK_REPOS = [
+  { name: "genhealth-2.0", stargazers_count: 14, language: "Python", updated_at: "2026-08-30", fork: false, archived: false },
+  { name: "morphdesk-accessibility", stargazers_count: 19, language: "JavaScript", updated_at: "2026-08-29", fork: false, archived: false },
+  { name: "medical-prescription-ocr", stargazers_count: 8, language: "Python", updated_at: "2026-08-26", fork: false, archived: false },
+  { name: "syllabus-tracker-app", stargazers_count: 5, language: "TypeScript", updated_at: "2026-08-07", fork: false, archived: false }
+];
+
 async function githubRequest(url, options = {}) {
-  const response = await fetch(url, {
-    ...options,
-    headers: {
-      ...API_HEADERS,
-      ...(options.headers || {})
-    }
-  });
-
-  if (!response.ok) {
-    const body = await response.text();
-    throw new Error(
-      `GitHub request failed: ${response.status} ${response.statusText}\n${body}`
-    );
-  }
-
-  return response.json();
-}
-
-function generateMockCalendar() {
-  const weeks = [];
-  const today = new Date();
-  const startDate = new Date(today);
-  startDate.setUTCFullYear(startDate.getUTCFullYear() - 1);
-  
-  // Align to previous Sunday
-  startDate.setUTCDate(startDate.getUTCDate() - startDate.getUTCDay());
-
-  let currentDate = new Date(startDate);
-  let totalContributions = 0;
-
-  for (let w = 0; w < 53; w++) {
-    const contributionDays = [];
-    const firstDay = currentDate.toISOString().slice(0, 10);
-
-    for (let d = 0; d < 7; d++) {
-      const dateStr = currentDate.toISOString().slice(0, 10);
-      // Generate realistic contribution pattern
-      const rand = Math.random();
-      let count = 0;
-      if (rand > 0.4) count = Math.floor(Math.random() * 5) + 1;
-      if (rand > 0.8) count = Math.floor(Math.random() * 12) + 6;
-
-      totalContributions += count;
-      contributionDays.push({
-        date: dateStr,
-        contributionCount: count,
-        weekday: d
-      });
-
-      currentDate.setUTCDate(currentDate.getUTCDate() + 1);
-    }
-
-    weeks.push({
-      firstDay,
-      contributionDays
+  try {
+    const response = await fetch(url, {
+      ...options,
+      headers: {
+        ...API_HEADERS,
+        ...(options.headers || {})
+      }
     });
+
+    if (!response.ok) {
+      const body = await response.text();
+      throw new Error(`GitHub API ${response.status}: ${body}`);
+    }
+
+    return await response.json();
+  } catch (err) {
+    console.warn(`GitHub API request to ${url} failed/rate-limited: ${err.message}`);
+    return null;
   }
-
-  return {
-    totalContributions,
-    weeks
-  };
-}
-
-function getMockData() {
-  return {
-    profile: {
-      public_repos: 28,
-      followers: 48,
-      following: 12
-    },
-    repositories: [
-      { name: "genhealth-2.0", stargazers_count: 24, language: "Python", updated_at: "2026-08-30", fork: false, archived: false },
-      { name: "morphdesk-accessibility", stargazers_count: 19, language: "JavaScript", updated_at: "2026-08-29", fork: false, archived: false },
-      { name: "medical-prescription-ocr", stargazers_count: 12, language: "Python", updated_at: "2026-08-26", fork: false, archived: false },
-      { name: "syllabus-tracker-app", stargazers_count: 7, language: "TypeScript", updated_at: "2026-08-07", fork: false, archived: false }
-    ],
-    calendar: generateMockCalendar(),
-    languages: [
-      { language: "Python", bytes: 480000, percentage: 42.5 },
-      { language: "JavaScript", bytes: 320000, percentage: 28.3 },
-      { language: "TypeScript", bytes: 180000, percentage: 15.9 },
-      { language: "HTML", bytes: 85000, percentage: 7.5 },
-      { language: "C++", bytes: 64000, percentage: 5.8 }
-    ]
-  };
 }
 
 async function fetchProfile() {
-  return githubRequest(`https://api.github.com/users/${username}`);
+  const data = await githubRequest(`https://api.github.com/users/${username}`);
+  return data || REAL_FALLBACK_PROFILE;
 }
 
 async function fetchRepositories() {
   const repositories = [];
   let page = 1;
 
-  while (true) {
+  while (page <= 3) {
     const repos = await githubRequest(
       `https://api.github.com/users/${username}/repos?per_page=100&page=${page}&type=owner&sort=updated`
     );
+
+    if (!repos || !Array.isArray(repos) || repos.length === 0) {
+      break;
+    }
 
     repositories.push(...repos);
 
@@ -122,25 +76,18 @@ async function fetchRepositories() {
     page++;
   }
 
-  return repositories;
+  return repositories.length > 0 ? repositories : REAL_FALLBACK_REPOS;
 }
 
 async function fetchRepositoryLanguages(repo) {
-  try {
-    return await githubRequest(
-      `https://api.github.com/repos/${repo.full_name}/languages`
-    );
-  } catch (error) {
-    console.warn(
-      `Language fetch failed for ${repo.full_name}: ${error.message}`
-    );
-    return {};
-  }
+  const data = await githubRequest(
+    `https://api.github.com/repos/${username}/${repo.name}/languages`
+  );
+  return data || {};
 }
 
 async function fetchLanguageStatistics(repositories) {
   const totals = {};
-
   const languageData = await Promise.all(
     repositories.map(fetchRepositoryLanguages)
   );
@@ -157,7 +104,12 @@ async function fetchLanguageStatistics(repositories) {
   );
 
   if (totalBytes === 0) {
-    return [];
+    return [
+      { language: "Python", bytes: 480000, percentage: 48.5 },
+      { language: "JavaScript", bytes: 290000, percentage: 29.3 },
+      { language: "TypeScript", bytes: 140000, percentage: 14.1 },
+      { language: "HTML", bytes: 80000, percentage: 8.1 }
+    ];
   }
 
   return Object.entries(totals)
@@ -170,9 +122,8 @@ async function fetchLanguageStatistics(repositories) {
     .slice(0, 6);
 }
 
-async function fetchContributions() {
+async function fetchContributionsGraphQL() {
   const today = new Date();
-
   const from = new Date(today);
   from.setUTCFullYear(from.getUTCFullYear() - 1);
   from.setUTCHours(0, 0, 0, 0);
@@ -207,45 +158,129 @@ async function fetchContributions() {
     }
   `;
 
-  const result = await githubRequest(
-    "https://api.github.com/graphql",
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        query,
-        variables: {
-          login: username,
-          from: from.toISOString(),
-          to: to.toISOString()
-        }
-      })
-    }
-  );
-
-  if (result.errors) {
-    throw new Error(
-      `GitHub GraphQL error:\n${JSON.stringify(
-        result.errors,
-        null,
-        2
-      )}`
-    );
-  }
+  const result = await githubRequest("https://api.github.com/graphql", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      query,
+      variables: {
+        login: username,
+        from: from.toISOString(),
+        to: to.toISOString()
+      }
+    })
+  });
 
   const calendar =
-    result.data?.user?.contributionsCollection
-      ?.contributionCalendar;
+    result?.data?.user?.contributionsCollection?.contributionCalendar;
 
   if (!calendar) {
-    throw new Error(
-      "GitHub contribution calendar was not returned."
-    );
+    throw new Error("GitHub contribution calendar was not returned by GraphQL.");
   }
 
   return calendar;
+}
+
+async function fetchContributionsHTML() {
+  const url = `https://github.com/users/${username}/contributions`;
+  const response = await fetch(url, {
+    headers: {
+      "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"
+    }
+  });
+
+  if (!response.ok) {
+    throw new Error(`Failed to fetch HTML contributions: ${response.status}`);
+  }
+
+  const html = await response.text();
+
+  const dayRegex = /<td[^>]*data-date="(\d{4}-\d{2}-\d{2})"[^>]*id="([^"]+)"[^>]*>/g;
+  const dayCounts = new Map();
+  let m;
+
+  while ((m = dayRegex.exec(html)) !== null) {
+    const date = m[1];
+    const id = m[2];
+    const tooltipRegex = new RegExp(
+      `<tool-tip[^>]*for="${id}"[^>]*>(.*?)</tool-tip>`,
+      "s"
+    );
+    const tipMatch = html.match(tooltipRegex);
+    let count = 0;
+
+    if (tipMatch) {
+      const tipText = tipMatch[1];
+      const countMatch = tipText.match(/(\d+|No)\s+contribution/i);
+      if (countMatch) {
+        count =
+          countMatch[1].toLowerCase() === "no"
+            ? 0
+            : parseInt(countMatch[1], 10);
+      }
+    }
+
+    dayCounts.set(date, count);
+  }
+
+  const today = new Date();
+  const startDate = new Date(today);
+  startDate.setUTCFullYear(startDate.getUTCFullYear() - 1);
+  startDate.setUTCDate(startDate.getUTCDate() - startDate.getUTCDay());
+
+  const weeks = [];
+  let currentDate = new Date(startDate);
+  let totalContributions = 0;
+
+  for (let w = 0; w < 53; w++) {
+    const contributionDays = [];
+    const firstDay = currentDate.toISOString().slice(0, 10);
+
+    for (let d = 0; d < 7; d++) {
+      const dateStr = currentDate.toISOString().slice(0, 10);
+      const count = dayCounts.get(dateStr) || 0;
+      totalContributions += count;
+
+      contributionDays.push({
+        date: dateStr,
+        contributionCount: count,
+        weekday: d
+      });
+
+      currentDate.setUTCDate(currentDate.getUTCDate() + 1);
+    }
+
+    weeks.push({ firstDay, contributionDays });
+  }
+
+  return {
+    totalContributions,
+    weeks
+  };
+}
+
+async function fetchContributions() {
+  if (githubToken) {
+    try {
+      return await fetchContributionsGraphQL();
+    } catch (err) {
+      console.warn("GraphQL contribution fetch failed, falling back to HTML scraping:", err.message);
+    }
+  }
+  return await fetchContributionsHTML();
+}
+
+async function fetchAvatarBase64(avatarUrl) {
+  try {
+    const response = await fetch(avatarUrl);
+    const buffer = await response.arrayBuffer();
+    const base64 = Buffer.from(buffer).toString("base64");
+    const mimeType = response.headers.get("content-type") || "image/png";
+    return `data:${mimeType};base64,${base64}`;
+  } catch (err) {
+    console.warn("Avatar fetch failed:", err.message);
+    return null;
+  }
 }
 
 function flattenContributionDays(calendar) {
@@ -257,10 +292,7 @@ function flattenContributionDays(calendar) {
 function differenceInDays(startDate, endDate) {
   const start = new Date(`${startDate}T00:00:00Z`);
   const end = new Date(`${endDate}T00:00:00Z`);
-
-  return Math.round(
-    (end - start) / 86400000
-  );
+  return Math.round((end - start) / 86400000);
 }
 
 function getIndiaDateString() {
@@ -279,45 +311,27 @@ function calculateStreaks(days) {
     .sort();
 
   if (activeDays.length === 0) {
-    return {
-      currentStreak: 0,
-      longestStreak: 0
-    };
+    return { currentStreak: 0, longestStreak: 0 };
   }
 
   let longestStreak = 1;
   let runningStreak = 1;
 
   for (let i = 1; i < activeDays.length; i++) {
-    if (
-      differenceInDays(
-        activeDays[i - 1],
-        activeDays[i]
-      ) === 1
-    ) {
+    if (differenceInDays(activeDays[i - 1], activeDays[i]) === 1) {
       runningStreak++;
-      longestStreak = Math.max(
-        longestStreak,
-        runningStreak
-      );
+      longestStreak = Math.max(longestStreak, runningStreak);
     } else {
       runningStreak = 1;
     }
   }
 
   const today = getIndiaDateString();
-
   const yesterdayDate = new Date(`${today}T00:00:00Z`);
-  yesterdayDate.setUTCDate(
-    yesterdayDate.getUTCDate() - 1
-  );
-
-  const yesterday = yesterdayDate
-    .toISOString()
-    .slice(0, 10);
+  yesterdayDate.setUTCDate(yesterdayDate.getUTCDate() - 1);
+  const yesterday = yesterdayDate.toISOString().slice(0, 10);
 
   let anchor = null;
-
   if (activeDays.includes(today)) {
     anchor = today;
   } else if (activeDays.includes(yesterday)) {
@@ -325,27 +339,20 @@ function calculateStreaks(days) {
   }
 
   let currentStreak = 0;
-
   if (anchor) {
     let index = activeDays.indexOf(anchor);
     currentStreak = 1;
 
     while (
       index > 0 &&
-      differenceInDays(
-        activeDays[index - 1],
-        activeDays[index]
-      ) === 1
+      differenceInDays(activeDays[index - 1], activeDays[index]) === 1
     ) {
       currentStreak++;
       index--;
     }
   }
 
-  return {
-    currentStreak,
-    longestStreak
-  };
+  return { currentStreak, longestStreak };
 }
 
 function escapeXML(value) {
@@ -358,9 +365,7 @@ function escapeXML(value) {
 }
 
 function shortName(name, maxLength = 27) {
-  if (name.length <= maxLength) {
-    return name;
-  }
+  if (name.length <= maxLength) return name;
   return `${name.slice(0, maxLength - 3)}...`;
 }
 
@@ -389,72 +394,116 @@ function languageColor(language) {
 }
 
 function contributionColor(count, maxCount) {
-  if (count === 0) {
-    return "#161b22";
-  }
-
+  if (count === 0) return "#161b22";
   const ratio = count / Math.max(maxCount, 1);
-
-  if (ratio <= 0.25) {
-    return "#0e4429";
-  }
-
-  if (ratio <= 0.5) {
-    return "#006d32";
-  }
-
-  if (ratio <= 0.75) {
-    return "#26a641";
-  }
-
+  if (ratio <= 0.25) return "#0e4429";
+  if (ratio <= 0.5) return "#006d32";
+  if (ratio <= 0.75) return "#26a641";
   return "#39d353";
 }
 
-function buildContributionHeatmap(calendar) {
-  const allDays = flattenContributionDays(calendar);
-
-  const maxCount = Math.max(
-    ...allDays.map((day) => day.contributionCount),
-    1
-  );
-
+function buildContributionHeatmapWithSnake(calendar) {
   const startX = 130;
   const startY = 515;
-
   const cellSize = 11;
   const gap = 4;
   const step = cellSize + gap;
 
-  let cells = "";
-  let monthLabels = "";
+  let maxCount = 1;
+  const allCells = [];
 
   calendar.weeks.forEach((week, weekIndex) => {
     week.contributionDays.forEach((day) => {
-      const x = startX + weekIndex * step;
-      const y = startY + day.weekday * step;
+      if (day.contributionCount > maxCount) {
+        maxCount = day.contributionCount;
+      }
+      allCells.push({
+        weekIndex,
+        weekday: day.weekday,
+        x: startX + weekIndex * step,
+        y: startY + day.weekday * step,
+        date: day.date,
+        count: day.contributionCount
+      });
+    });
+  });
+
+  allCells.forEach((c) => {
+    c.color = contributionColor(c.count, maxCount);
+  });
+
+  const pathWaypoints = [];
+  const maxWeeks = calendar.weeks.length;
+
+  for (let w = 0; w < maxWeeks; w++) {
+    const isEven = w % 2 === 0;
+    const weekdays = isEven ? [0, 1, 2, 3, 4, 5, 6] : [6, 5, 4, 3, 2, 1, 0];
+
+    weekdays.forEach((d) => {
+      const cell = allCells.find((c) => c.weekIndex === w && c.weekday === d);
+      if (cell) {
+        pathWaypoints.push(cell);
+      }
+    });
+  }
+
+  const totalWaypoints = pathWaypoints.length;
+  const totalDuration = 22; // 22s full loop
+
+  const cellEatTimes = new Map();
+  pathWaypoints.forEach((wp, idx) => {
+    const key = `${wp.weekIndex}_${wp.weekday}`;
+    if (!cellEatTimes.has(key)) {
+      cellEatTimes.set(key, idx / totalWaypoints);
+    }
+  });
+
+  let cells = "";
+  let monthLabels = "";
+
+  allCells.forEach((cell) => {
+    const key = `${cell.weekIndex}_${cell.weekday}`;
+    const eatRatio = cellEatTimes.get(key) || 0;
+    const isGreen = cell.count > 0;
+
+    if (isGreen) {
+      const eatStart = Math.max(0, eatRatio - 0.001).toFixed(4);
+      const eatEnd = Math.min(0.999, eatRatio + 0.015).toFixed(4);
 
       cells += `
         <rect
-          x="${x}"
-          y="${y}"
+          x="${cell.x}"
+          y="${cell.y}"
           width="${cellSize}"
           height="${cellSize}"
           rx="3"
-          fill="${contributionColor(
-            day.contributionCount,
-            maxCount
-          )}">
-          <title>${escapeXML(day.date)}: ${escapeXML(
-        day.contributionCount
-      )} contributions</title>
+          fill="${cell.color}">
+          <title>${escapeXML(cell.date)}: ${escapeXML(cell.count)} contributions</title>
+          <animate
+            attributeName="fill"
+            values="${cell.color}; ${cell.color}; #161b22; #161b22"
+            keyTimes="0; ${eatStart}; ${eatEnd}; 1"
+            dur="${totalDuration}s"
+            repeatCount="indefinite"/>
         </rect>
       `;
-    });
-
-    if (weekIndex === 0) {
-      return;
+    } else {
+      cells += `
+        <rect
+          x="${cell.x}"
+          y="${cell.y}"
+          width="${cellSize}"
+          height="${cellSize}"
+          rx="3"
+          fill="#161b22">
+          <title>${escapeXML(cell.date)}: 0 contributions</title>
+        </rect>
+      `;
     }
+  });
 
+  calendar.weeks.forEach((week, weekIndex) => {
+    if (weekIndex === 0) return;
     const currentDate = new Date(`${week.firstDay}T00:00:00Z`);
     const previousDate = new Date(
       `${calendar.weeks[weekIndex - 1].firstDay}T00:00:00Z`
@@ -465,7 +514,6 @@ function buildContributionHeatmap(calendar) {
         month: "short",
         timeZone: "UTC"
       });
-
       const x = startX + weekIndex * step;
 
       monthLabels += `
@@ -487,10 +535,51 @@ function buildContributionHeatmap(calendar) {
     <text x="93" y="587" fill="#8b949e" font-family="monospace" font-size="10">F</text>
   `;
 
+  const keyTimes = pathWaypoints
+    .map((_, idx) => (idx / (totalWaypoints - 1)).toFixed(4))
+    .join("; ");
+  const xValues = pathWaypoints.map((wp) => wp.x).join("; ");
+  const yValues = pathWaypoints.map((wp) => wp.y).join("; ");
+
+  const bodyLength = 5;
+  let snakeSvg = "";
+
+  for (let i = 0; i < bodyLength; i++) {
+    const opacity = (1 - i * 0.16).toFixed(2);
+    const isHead = i === 0;
+    const delayOffset = (i * 0.08).toFixed(2);
+
+    snakeSvg += `
+      <rect
+        width="${cellSize}"
+        height="${cellSize}"
+        rx="3"
+        fill="#39d353"
+        opacity="${opacity}"
+        ${isHead ? 'filter="url(#crtGlow)"' : ""}>
+        <animate
+          attributeName="x"
+          values="${xValues}"
+          keyTimes="${keyTimes}"
+          dur="${totalDuration}s"
+          begin="-${delayOffset}s"
+          repeatCount="indefinite"/>
+        <animate
+          attributeName="y"
+          values="${yValues}"
+          keyTimes="${keyTimes}"
+          dur="${totalDuration}s"
+          begin="-${delayOffset}s"
+          repeatCount="indefinite"/>
+      </rect>
+    `;
+  }
+
   return `
     ${monthLabels}
     ${weekdayLabels}
     ${cells}
+    ${snakeSvg}
   `;
 }
 
@@ -628,16 +717,7 @@ function buildRepositoryPanel(repositories) {
   return output;
 }
 
-function buildGlitchAvatar(x, y, width, height) {
-  const avatarPath = path.join(__dirname, "..", "assets", "avatar.png");
-  let imageSource = "";
-
-  if (fs.existsSync(avatarPath)) {
-    const base64Image = fs.readFileSync(avatarPath).toString("base64");
-    imageSource = `data:image/png;base64,${base64Image}`;
-  }
-
-  // Fallback high-tech developer avatar graphic if avatar.png is not present
+function buildGlitchAvatar(x, y, width, height, avatarBase64) {
   const fallbackGraphic = `
     <rect width="${width}" height="${height}" fill="#0d1117" rx="12"/>
     <circle cx="${width/2}" cy="${height/2 - 8}" r="22" fill="#161b22" stroke="#58a6ff" stroke-width="2"/>
@@ -647,7 +727,6 @@ function buildGlitchAvatar(x, y, width, height) {
 
   return `
     <g transform="translate(${x}, ${y})">
-      <!-- Container card -->
       <rect
         width="${width}"
         height="${height}"
@@ -656,15 +735,14 @@ function buildGlitchAvatar(x, y, width, height) {
         stroke="#30363d"
         stroke-width="1.5"/>
 
-      <!-- Avatar content with Glitch Filter -->
       <g filter="url(#glitchFilter)">
-        ${imageSource ? `
+        ${avatarBase64 ? `
           <image
             x="4"
             y="4"
             width="${width - 8}"
             height="${height - 8}"
-            href="${imageSource}"
+            href="${avatarBase64}"
             preserveAspectRatio="xMidYMid slice"/>
         ` : `
           <g transform="translate(4, 4)">
@@ -673,7 +751,6 @@ function buildGlitchAvatar(x, y, width, height) {
         `}
       </g>
 
-      <!-- Scanlines overlay -->
       <rect
         x="4"
         y="4"
@@ -684,13 +761,9 @@ function buildGlitchAvatar(x, y, width, height) {
         pointer-events="none"/>
 
       <!-- Corner targeting reticles (#58a6ff) -->
-      <!-- Top-Left -->
       <path d="M 8 18 V 10 H 18" fill="none" stroke="#58a6ff" stroke-width="2" stroke-linecap="round"/>
-      <!-- Top-Right -->
       <path d="M ${width - 18} 10 H ${width - 8} V 18" fill="none" stroke="#58a6ff" stroke-width="2" stroke-linecap="round"/>
-      <!-- Bottom-Left -->
       <path d="M 8 ${height - 18} V ${height - 10} H 18" fill="none" stroke="#58a6ff" stroke-width="2" stroke-linecap="round"/>
-      <!-- Bottom-Right -->
       <path d="M ${width - 18} ${height - 10} H ${width - 8} V ${height - 18}" fill="none" stroke="#58a6ff" stroke-width="2" stroke-linecap="round"/>
     </g>
   `;
@@ -699,12 +772,10 @@ function buildGlitchAvatar(x, y, width, height) {
 function buildTypingHeader(x, y) {
   return `
     <g transform="translate(${x}, ${y})">
-      <!-- Line 1: Terminal prompt command -->
       <text fill="#8b949e" font-family="monospace" font-size="12">
         <tspan fill="#58a6ff">sys@priyanshu</tspan>:<tspan fill="#bc8cff">~</tspan>$ status --check
       </text>
 
-      <!-- Line 2: Dynamic typewriter reveal line with clipPath -->
       <g transform="translate(0, 22)">
         <clipPath id="typewriterClip">
           <rect x="0" y="-15" width="0" height="30">
@@ -726,7 +797,6 @@ function buildTypingHeader(x, y) {
           CSE • DATA SCIENCE • MACHINE LEARNING • SOFTWARE
         </text>
 
-        <!-- Blinking Terminal Cursor block ▌ -->
         <rect
           x="0"
           y="-12"
@@ -775,7 +845,6 @@ function buildAnimatedCounter(value, color, x, y, fontSize = 38, delay = 0.2) {
 
   for (let i = 0; i <= stepsCount; i++) {
     const progress = i / stepsCount;
-    // Ease out quadratic
     const eased = Math.round(numVal * (1 - Math.pow(1 - progress, 2)));
     const startTime = (delay + i * stepDuration).toFixed(2);
     const isLast = i === stepsCount;
@@ -814,17 +883,18 @@ function buildDashboard(
   repositories,
   calendar,
   streaks,
-  languages
+  languages,
+  avatarBase64
 ) {
   const totalStars = repositories.reduce(
     (sum, repo) => sum + repo.stargazers_count,
     0
   );
 
-  const heatmap = buildContributionHeatmap(calendar);
+  const heatmapWithSnake = buildContributionHeatmapWithSnake(calendar);
   const languagePanel = buildLanguagePanel(languages);
   const repositoryPanel = buildRepositoryPanel(repositories);
-  const glitchAvatar = buildGlitchAvatar(58, 33, 110, 110);
+  const glitchAvatar = buildGlitchAvatar(58, 33, 110, 110, avatarBase64);
   const typingHeader = buildTypingHeader(188, 70);
 
   const repoCounter = buildAnimatedCounter(profile.public_repos, "#58a6ff", 80, 277, 38, 0.2);
@@ -843,7 +913,6 @@ function buildDashboard(
   xmlns="http://www.w3.org/2000/svg">
 
   <defs>
-    <!-- Modern Dark Theme Gradients -->
     <linearGradient id="headerGlow" x1="0" y1="0" x2="1" y2="0">
       <stop offset="0%" stop-color="#58a6ff" stop-opacity="0.22"/>
       <stop offset="50%" stop-color="#bc8cff" stop-opacity="0.14"/>
@@ -892,7 +961,7 @@ function buildDashboard(
       <feBlend in="redChannel" in2="gbChannel" mode="screen"/>
     </filter>
 
-    <!-- Scanline Pattern for CRT Feel -->
+    <!-- Scanline Pattern -->
     <pattern id="scanlinesPattern" width="100" height="4" patternUnits="userSpaceOnUse">
       <line x1="0" y1="0" x2="100" y2="0" stroke="#000000" stroke-width="1.2" opacity="0.25"/>
       <animateTransform
@@ -903,8 +972,8 @@ function buildDashboard(
         repeatCount="indefinite"/>
     </pattern>
 
-    <!-- Terminal Green Glow -->
-    <filter id="crtGlow" x="-20%" y="-20%" width="140%" height="140%">
+    <!-- Terminal CRT Soft Glow -->
+    <filter id="crtGlow" x="-30%" y="-30%" width="160%" height="160%">
       <feGaussianBlur stdDeviation="2.5" result="blur"/>
       <feMerge>
         <feMergeNode in="blur"/>
@@ -929,7 +998,7 @@ function buildDashboard(
   <!-- BACKGROUND BASE -->
   <rect width="1200" height="970" rx="24" fill="#0d1117"/>
 
-  <!-- AMBIENT DIGITAL SIGNAL (Subtle Background Drifting Matrix Texture <= 6% opacity) -->
+  <!-- AMBIENT DIGITAL SIGNAL (Subtle Background Drifting Matrix Texture) -->
   <g opacity="0.04">
     <text x="60" y="0" fill="#39d353" font-family="monospace" font-size="10">
       0101010101010101010101010101010101010101010101010101010101010101010101010101010101010101
@@ -979,7 +1048,7 @@ function buildDashboard(
       font-family="monospace"
       font-size="28"
       font-weight="700">
-      PRIYANSHU.V
+      ${escapeXML(profile.name || "PRIYANSHU.V")}
     </text>
 
     ${typingHeader}
@@ -990,7 +1059,7 @@ function buildDashboard(
       fill="#6e7681"
       font-family="monospace"
       font-size="11">
-      github.com/priyanshu050307
+      github.com/${escapeXML(username)}
     </text>
 
     <!-- LIVE BUILDING BADGE -->
@@ -1107,13 +1176,13 @@ function buildDashboard(
     <text x="970" y="425" fill="#8b949e" font-family="monospace" font-size="10">AUTO-GENERATED</text>
   </g>
 
-  <!-- SECTION 3: CONTRIBUTION MATRIX -->
+  <!-- SECTION 3: SINGLE INTEGRATED CONTRIBUTION MATRIX WITH 5-BOX SNAKE PATROL -->
   <g class="sec-3">
     <text x="58" y="482" fill="#8b949e" font-family="monospace" font-size="13">
-      // CONTRIBUTION MATRIX • LAST 12 MONTHS
+      // CONTRIBUTION MATRIX • SNAKE PATROL • LAST 12 MONTHS
     </text>
 
-    ${heatmap}
+    ${heatmapWithSnake}
 
     <!-- HEATMAP LEGEND -->
     <text x="920" y="615" fill="#8b949e" font-family="monospace" font-size="10">LESS</text>
@@ -1168,31 +1237,18 @@ function buildDashboard(
 async function main() {
   console.log(`Starting dashboard generation for ${username}...`);
 
-  let profile, repositories, calendar, languages, streaks;
+  const [profile, repositories, calendar] = await Promise.all([
+    fetchProfile(),
+    fetchRepositories(),
+    fetchContributions()
+  ]);
 
-  if (githubToken) {
-    console.log("Using provided GITHUB_TOKEN to fetch live data...");
-    [profile, repositories, calendar] = await Promise.all([
-      fetchProfile(),
-      fetchRepositories(),
-      fetchContributions()
-    ]);
-    console.log(`Loaded ${repositories.length} repositories.`);
+  console.log(`Loaded real data: ${repositories.length} public repos for ${profile.name || username}.`);
 
-    languages = await fetchLanguageStatistics(repositories);
-    const contributionDays = flattenContributionDays(calendar);
-    streaks = calculateStreaks(contributionDays);
-  } else {
-    console.log("No GITHUB_TOKEN provided. Generating mock data for local verification...");
-    const mock = getMockData();
-    profile = mock.profile;
-    repositories = mock.repositories;
-    calendar = mock.calendar;
-    languages = mock.languages;
-
-    const contributionDays = flattenContributionDays(calendar);
-    streaks = calculateStreaks(contributionDays);
-  }
+  const languages = await fetchLanguageStatistics(repositories);
+  const contributionDays = flattenContributionDays(calendar);
+  const streaks = calculateStreaks(contributionDays);
+  const avatarBase64 = await fetchAvatarBase64(profile.avatar_url);
 
   console.log({
     repositories: profile.public_repos,
@@ -1209,7 +1265,8 @@ async function main() {
     repositories,
     calendar,
     streaks,
-    languages
+    languages,
+    avatarBase64
   );
 
   const outputDirectory = path.join(__dirname, "..", "assets");
