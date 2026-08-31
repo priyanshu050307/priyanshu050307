@@ -20,6 +20,7 @@ async function fetchJSON(url, options = {}) {
 
   if (!response.ok) {
     const body = await response.text();
+
     throw new Error(
       `Request failed: ${response.status} ${response.statusText}\n${body}`
     );
@@ -72,7 +73,6 @@ async function fetchContributions() {
               contributionDays {
                 date
                 contributionCount
-                color
                 weekday
               }
             }
@@ -143,9 +143,17 @@ function calculateStreaks(days) {
   let runningStreak = 1;
 
   for (let i = 1; i < activeDays.length; i++) {
-    if (dateDifferenceInDays(activeDays[i - 1], activeDays[i]) === 1) {
+    if (
+      dateDifferenceInDays(
+        activeDays[i - 1],
+        activeDays[i]
+      ) === 1
+    ) {
       runningStreak++;
-      longestStreak = Math.max(longestStreak, runningStreak);
+      longestStreak = Math.max(
+        longestStreak,
+        runningStreak
+      );
     } else {
       runningStreak = 1;
     }
@@ -155,31 +163,33 @@ function calculateStreaks(days) {
   const todayString = today.toISOString().slice(0, 10);
 
   const yesterdayDate = new Date(today);
-  yesterdayDate.setUTCDate(yesterdayDate.getUTCDate() - 1);
-  const yesterdayString = yesterdayDate.toISOString().slice(0, 10);
+  yesterdayDate.setUTCDate(
+    yesterdayDate.getUTCDate() - 1
+  );
+
+  const yesterdayString =
+    yesterdayDate.toISOString().slice(0, 10);
 
   let currentStreak = 0;
 
+  let startingDate = null;
+
   if (activeDays.includes(todayString)) {
-    currentStreak = 1;
-
-    let cursor = activeDays.indexOf(todayString);
-
-    while (
-      cursor > 0 &&
-      dateDifferenceInDays(activeDays[cursor - 1], activeDays[cursor]) === 1
-    ) {
-      currentStreak++;
-      cursor--;
-    }
+    startingDate = todayString;
   } else if (activeDays.includes(yesterdayString)) {
-    currentStreak = 1;
+    startingDate = yesterdayString;
+  }
 
-    let cursor = activeDays.indexOf(yesterdayString);
+  if (startingDate) {
+    let cursor = activeDays.indexOf(startingDate);
+    currentStreak = 1;
 
     while (
       cursor > 0 &&
-      dateDifferenceInDays(activeDays[cursor - 1], activeDays[cursor]) === 1
+      dateDifferenceInDays(
+        activeDays[cursor - 1],
+        activeDays[cursor]
+      ) === 1
     ) {
       currentStreak++;
       cursor--;
@@ -201,7 +211,7 @@ function escapeXML(value) {
     .replace(/'/g, "&apos;");
 }
 
-function getContributionColor(count, maxCount) {
+function contributionColor(count, maxCount) {
   if (count === 0) {
     return "#161b22";
   }
@@ -212,7 +222,7 @@ function getContributionColor(count, maxCount) {
     return "#0e4429";
   }
 
-  if (ratio <= 0.5) {
+  if (ratio <= 0.50) {
     return "#006d32";
   }
 
@@ -227,104 +237,162 @@ function buildContributionHeatmap(calendar) {
   const allDays = flattenContributionDays(calendar);
 
   const maxCount = Math.max(
-    ...allDays.map((day) => day.contributionCount),
+    ...allDays.map(
+      (day) => day.contributionCount
+    ),
     1
   );
 
-  const startX = 50;
+  const startX = 62;
   const startY = 430;
-  const cellSize = 12;
-  const gap = 4;
+
+  const cellSize = 11;
+  const gap = 3;
   const step = cellSize + gap;
 
-  let cells = "";
+  let svg = "";
 
   calendar.weeks.forEach((week, weekIndex) => {
     week.contributionDays.forEach((day) => {
-      const x = startX + weekIndex * step;
-      const y = startY + day.weekday * step;
+      const x =
+        startX + weekIndex * step;
 
-      cells += `
+      const y =
+        startY + day.weekday * step;
+
+      const fill = contributionColor(
+        day.contributionCount,
+        maxCount
+      );
+
+      svg += `
         <rect
           x="${x}"
           y="${y}"
           width="${cellSize}"
           height="${cellSize}"
           rx="3"
-          fill="${getContributionColor(day.contributionCount, maxCount)}">
-          <title>${escapeXML(day.date)}: ${escapeXML(day.contributionCount)} contributions</title>
+          fill="${fill}"
+        >
+          <title>${escapeXML(day.date)}: ${escapeXML(
+        day.contributionCount
+      )} contributions</title>
         </rect>
       `;
     });
   });
 
-  return cells;
+  return svg;
 }
 
-function buildDashboard(profile, repositories, calendar, streaks) {
+function buildDashboard(
+  profile,
+  repositories,
+  calendar,
+  streaks
+) {
   const totalStars = repositories.reduce(
-    (total, repo) => total + repo.stargazers_count,
+    (total, repo) =>
+      total + repo.stargazers_count,
     0
   );
 
-  const heatmap = buildContributionHeatmap(calendar);
+  const heatmap =
+    buildContributionHeatmap(calendar);
 
   return `
 <svg
-  width="1000"
-  height="570"
-  viewBox="0 0 1000 570"
+  width="1100"
+  height="640"
+  viewBox="0 0 1100 640"
   xmlns="http://www.w3.org/2000/svg">
 
+  <defs>
+
+    <linearGradient
+      id="headerGlow"
+      x1="0"
+      y1="0"
+      x2="1"
+      y2="0">
+
+      <stop
+        offset="0%"
+        stop-color="#58a6ff"
+        stop-opacity="0.25"/>
+
+      <stop
+        offset="50%"
+        stop-color="#bc8cff"
+        stop-opacity="0.10"/>
+
+      <stop
+        offset="100%"
+        stop-color="#58a6ff"
+        stop-opacity="0"/>
+
+    </linearGradient>
+
+  </defs>
+
+  <!-- BACKGROUND -->
+
   <rect
-    width="1000"
-    height="570"
-    rx="18"
-    fill="#0d1117"
-  />
+    width="1100"
+    height="640"
+    rx="22"
+    fill="#0d1117"/>
 
   <rect
     x="1"
     y="1"
-    width="998"
-    height="568"
-    rx="18"
+    width="1098"
+    height="638"
+    rx="22"
     fill="none"
     stroke="#30363d"
-    stroke-width="2"
-  />
+    stroke-width="2"/>
+
+  <!-- HEADER GLOW -->
+
+  <rect
+    x="25"
+    y="25"
+    width="1050"
+    height="115"
+    rx="16"
+    fill="url(#headerGlow)"/>
 
   <!-- HEADER -->
 
   <text
-    x="50"
-    y="60"
+    x="55"
+    y="70"
     fill="#f0f6fc"
     font-family="monospace"
-    font-size="27"
-    font-weight="bold">
-    PRIYANSHU VISHWAKARMA
+    font-size="30"
+    font-weight="700">
+    PRIYANSHU.V
   </text>
 
   <text
-    x="50"
-    y="92"
+    x="55"
+    y="101"
     fill="#8b949e"
     font-family="monospace"
-    font-size="15">
-    CSE STUDENT • DATA SCIENCE • MACHINE LEARNING
+    font-size="14">
+    CSE STUDENT • DATA SCIENCE • MACHINE LEARNING • BUILDER
   </text>
 
   <circle
-    cx="880"
-    cy="58"
-    r="6"
-    fill="#3fb950"
-  />
+    cx="955"
+    cy="65"
+    r="7"
+    fill="#3fb950"/>
 
   <text
-    x="895"
-    y="64"
+    x="975"
+    y="70"
     fill="#3fb950"
     font-family="monospace"
     font-size="13">
@@ -332,206 +400,354 @@ function buildDashboard(profile, repositories, calendar, streaks) {
   </text>
 
   <line
-    x1="50"
-    y1="125"
-    x2="950"
-    y2="125"
-    stroke="#30363d"
-  />
+    x1="55"
+    y1="130"
+    x2="1045"
+    y2="130"
+    stroke="#30363d"/>
 
-  <!-- PROFILE STATS -->
-
-  <text
-    x="50"
-    y="158"
-    fill="#8b949e"
-    font-family="monospace"
-    font-size="13">
-    GITHUB PROFILE
-  </text>
+  <!-- PROFILE ANALYTICS -->
 
   <text
-    x="60"
-    y="215"
-    fill="#58a6ff"
-    font-family="monospace"
-    font-size="34"
-    font-weight="bold">
-    ${escapeXML(profile.public_repos)}
-  </text>
-
-  <text
-    x="60"
-    y="240"
+    x="55"
+    y="165"
     fill="#8b949e"
     font-family="monospace"
     font-size="12">
+    GITHUB // PROFILE ANALYTICS
+  </text>
+
+  <!-- CARD 1 -->
+
+  <rect
+    x="55"
+    y="185"
+    width="225"
+    height="105"
+    rx="12"
+    fill="#161b22"
+    stroke="#21262d"/>
+
+  <text
+    x="75"
+    y="217"
+    fill="#8b949e"
+    font-family="monospace"
+    font-size="11">
     REPOSITORIES
   </text>
 
   <text
-    x="275"
-    y="215"
-    fill="#f85149"
+    x="75"
+    y="264"
+    fill="#58a6ff"
     font-family="monospace"
-    font-size="34"
-    font-weight="bold">
-    ${escapeXML(profile.followers)}
+    font-size="36"
+    font-weight="700">
+    ${escapeXML(profile.public_repos)}
   </text>
 
+  <!-- CARD 2 -->
+
+  <rect
+    x="295"
+    y="185"
+    width="225"
+    height="105"
+    rx="12"
+    fill="#161b22"
+    stroke="#21262d"/>
+
   <text
-    x="275"
-    y="240"
+    x="315"
+    y="217"
     fill="#8b949e"
     font-family="monospace"
-    font-size="12">
-    FOLLOWERS
-  </text>
-
-  <text
-    x="490"
-    y="215"
-    fill="#d2a8ff"
-    font-family="monospace"
-    font-size="34"
-    font-weight="bold">
-    ${escapeXML(totalStars)}
-  </text>
-
-  <text
-    x="490"
-    y="240"
-    fill="#8b949e"
-    font-family="monospace"
-    font-size="12">
-    STARS
-  </text>
-
-  <text
-    x="705"
-    y="215"
-    fill="#e3b341"
-    font-family="monospace"
-    font-size="34"
-    font-weight="bold">
-    ${escapeXML(profile.following)}
-  </text>
-
-  <text
-    x="705"
-    y="240"
-    fill="#8b949e"
-    font-family="monospace"
-    font-size="12">
-    FOLLOWING
-  </text>
-
-  <line
-    x1="50"
-    y1="275"
-    x2="950"
-    y2="275"
-    stroke="#30363d"
-  />
-
-  <!-- CONTRIBUTION STATS -->
-
-  <text
-    x="50"
-    y="308"
-    fill="#8b949e"
-    font-family="monospace"
-    font-size="13">
-    CONTRIBUTION INTELLIGENCE
-  </text>
-
-  <text
-    x="60"
-    y="360"
-    fill="#39d353"
-    font-family="monospace"
-    font-size="32"
-    font-weight="bold">
-    ${escapeXML(calendar.totalContributions)}
-  </text>
-
-  <text
-    x="60"
-    y="382"
-    fill="#8b949e"
-    font-family="monospace"
-    font-size="12">
+    font-size="11">
     CONTRIBUTIONS
   </text>
 
   <text
-    x="355"
-    y="360"
-    fill="#f85149"
+    x="315"
+    y="264"
+    fill="#39d353"
     font-family="monospace"
-    font-size="32"
-    font-weight="bold">
-    ${escapeXML(streaks.currentStreak)}
+    font-size="36"
+    font-weight="700">
+    ${escapeXML(calendar.totalContributions)}
+  </text>
+
+  <!-- CARD 3 -->
+
+  <rect
+    x="535"
+    y="185"
+    width="225"
+    height="105"
+    rx="12"
+    fill="#161b22"
+    stroke="#21262d"/>
+
+  <text
+    x="555"
+    y="217"
+    fill="#8b949e"
+    font-family="monospace"
+    font-size="11">
+    STARS
   </text>
 
   <text
-    x="355"
-    y="382"
+    x="555"
+    y="264"
+    fill="#e3b341"
+    font-family="monospace"
+    font-size="36"
+    font-weight="700">
+    ${escapeXML(totalStars)}
+  </text>
+
+  <!-- CARD 4 -->
+
+  <rect
+    x="775"
+    y="185"
+    width="270"
+    height="105"
+    rx="12"
+    fill="#161b22"
+    stroke="#21262d"/>
+
+  <text
+    x="795"
+    y="217"
+    fill="#8b949e"
+    font-family="monospace"
+    font-size="11">
+    FOLLOWERS
+  </text>
+
+  <text
+    x="795"
+    y="264"
+    fill="#f85149"
+    font-family="monospace"
+    font-size="36"
+    font-weight="700">
+    ${escapeXML(profile.followers)}
+  </text>
+
+  <text
+    x="960"
+    y="265"
+    fill="#8b949e"
+    font-family="monospace"
+    font-size="11">
+    / ${escapeXML(profile.following)} FOLLOWING
+  </text>
+
+  <!-- CONTRIBUTION SECTION -->
+
+  <line
+    x1="55"
+    y1="320"
+    x2="1045"
+    y2="320"
+    stroke="#30363d"/>
+
+  <text
+    x="55"
+    y="350"
     fill="#8b949e"
     font-family="monospace"
     font-size="12">
+    CONTRIBUTION // ACTIVITY
+  </text>
+
+  <!-- STREAK -->
+
+  <rect
+    x="55"
+    y="365"
+    width="255"
+    height="55"
+    rx="10"
+    fill="#161b22"
+    stroke="#21262d"/>
+
+  <text
+    x="72"
+    y="387"
+    fill="#8b949e"
+    font-family="monospace"
+    font-size="10">
     CURRENT STREAK
   </text>
 
   <text
-    x="650"
-    y="360"
-    fill="#e3b341"
+    x="72"
+    y="407"
+    fill="#f85149"
     font-family="monospace"
-    font-size="32"
-    font-weight="bold">
-    ${escapeXML(streaks.longestStreak)}
+    font-size="18"
+    font-weight="700">
+    ${escapeXML(streaks.currentStreak)} DAYS
   </text>
 
+  <!-- BEST STREAK -->
+
+  <rect
+    x="325"
+    y="365"
+    width="255"
+    height="55"
+    rx="10"
+    fill="#161b22"
+    stroke="#21262d"/>
+
   <text
-    x="650"
-    y="382"
+    x="342"
+    y="387"
     fill="#8b949e"
     font-family="monospace"
-    font-size="12">
+    font-size="10">
     LONGEST STREAK
   </text>
 
-  <!-- CONTRIBUTION HEATMAP -->
+  <text
+    x="342"
+    y="407"
+    fill="#e3b341"
+    font-family="monospace"
+    font-size="18"
+    font-weight="700">
+    ${escapeXML(streaks.longestStreak)} DAYS
+  </text>
+
+  <!-- STATUS -->
+
+  <rect
+    x="595"
+    y="365"
+    width="450"
+    height="55"
+    rx="10"
+    fill="#161b22"
+    stroke="#21262d"/>
+
+  <circle
+    cx="620"
+    cy="393"
+    r="6"
+    fill="#39d353"/>
 
   <text
-    x="50"
-    y="415"
+    x="637"
+    y="398"
+    fill="#39d353"
+    font-family="monospace"
+    font-size="12">
+    SYSTEM ONLINE
+  </text>
+
+  <text
+    x="805"
+    y="398"
     fill="#8b949e"
     font-family="monospace"
-    font-size="13">
-    CONTRIBUTION MATRIX
+    font-size="11">
+    AUTO-GENERATED
+  </text>
+
+  <!-- HEATMAP -->
+
+  <text
+    x="55"
+    y="448"
+    fill="#8b949e"
+    font-family="monospace"
+    font-size="12">
+    CONTRIBUTION MATRIX // LAST 12 MONTHS
   </text>
 
   ${heatmap}
 
+  <!-- LEGEND -->
+
+  <text
+    x="850"
+    y="590"
+    fill="#8b949e"
+    font-family="monospace"
+    font-size="9">
+    LESS
+  </text>
+
+  <rect
+    x="885"
+    y="581"
+    width="11"
+    height="11"
+    rx="2"
+    fill="#161b22"/>
+
+  <rect
+    x="902"
+    y="581"
+    width="11"
+    height="11"
+    rx="2"
+    fill="#0e4429"/>
+
+  <rect
+    x="919"
+    y="581"
+    width="11"
+    height="11"
+    rx="2"
+    fill="#006d32"/>
+
+  <rect
+    x="936"
+    y="581"
+    width="11"
+    height="11"
+    rx="2"
+    fill="#26a641"/>
+
+  <rect
+    x="953"
+    y="581"
+    width="11"
+    height="11"
+    rx="2"
+    fill="#39d353"/>
+
+  <text
+    x="972"
+    y="590"
+    fill="#8b949e"
+    font-family="monospace"
+    font-size="9">
+    MORE
+  </text>
+
   <!-- FOOTER -->
 
   <line
-    x1="50"
-    y1="545"
-    x2="950"
-    y2="545"
-    stroke="#30363d"
-  />
+    x1="55"
+    y1="610"
+    x2="1045"
+    y2="610"
+    stroke="#21262d"/>
 
   <text
-    x="50"
-    y="562"
+    x="55"
+    y="628"
     fill="#3fb950"
     font-family="monospace"
-    font-size="11">
-    &gt; LIVE GITHUB DATA • AUTO-GENERATED • UPDATED DAILY
+    font-size="10">
+    &gt; LIVE GITHUB DATA • UPDATED DAILY • PRIYANSHU.V
   </text>
 
 </svg>
@@ -539,27 +755,46 @@ function buildDashboard(profile, repositories, calendar, streaks) {
 }
 
 async function main() {
-  console.log(`Generating dashboard for ${username}...`);
+  console.log(
+    `Generating dashboard for ${username}...`
+  );
 
-  const [profile, repositories, calendar] = await Promise.all([
+  const [
+    profile,
+    repositories,
+    calendar
+  ] = await Promise.all([
     fetchGitHubProfile(),
     fetchRepositories(),
     fetchContributions()
   ]);
 
-  const contributionDays = flattenContributionDays(calendar);
-  const streaks = calculateStreaks(contributionDays);
+  const contributionDays =
+    flattenContributionDays(calendar);
 
-  console.log("Profile:");
-  console.log({
+  const streaks =
+    calculateStreaks(contributionDays);
+
+  console.log("Profile:", {
     repositories: profile.public_repos,
     followers: profile.followers,
     following: profile.following
   });
 
-  console.log("Contributions:", calendar.totalContributions);
-  console.log("Current streak:", streaks.currentStreak);
-  console.log("Longest streak:", streaks.longestStreak);
+  console.log(
+    "Contributions:",
+    calendar.totalContributions
+  );
+
+  console.log(
+    "Current streak:",
+    streaks.currentStreak
+  );
+
+  console.log(
+    "Longest streak:",
+    streaks.longestStreak
+  );
 
   const dashboard = buildDashboard(
     profile,
@@ -568,17 +803,30 @@ async function main() {
     streaks
   );
 
-  const outputDir = path.join(__dirname, "..", "assets");
+  const outputDir =
+    path.join(__dirname, "..", "assets");
 
   if (!fs.existsSync(outputDir)) {
-    fs.mkdirSync(outputDir, { recursive: true });
+    fs.mkdirSync(outputDir, {
+      recursive: true
+    });
   }
 
-  const outputPath = path.join(outputDir, "dashboard.svg");
+  const outputPath =
+    path.join(
+      outputDir,
+      "dashboard.svg"
+    );
 
-  fs.writeFileSync(outputPath, dashboard.trim(), "utf8");
+  fs.writeFileSync(
+    outputPath,
+    dashboard.trim(),
+    "utf8"
+  );
 
-  console.log(`Dashboard written to ${outputPath}`);
+  console.log(
+    `Dashboard written to ${outputPath}`
+  );
 }
 
 main().catch((error) => {
