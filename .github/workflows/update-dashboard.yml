@@ -9,7 +9,7 @@ permissions:
   contents: write
 
 jobs:
-  generate-dashboard:
+  dashboard:
     runs-on: ubuntu-latest
 
     steps:
@@ -19,20 +19,18 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 24   
+          node-version: 24
 
-     - name: Generate dashboard
-       env:
-         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-       run: node scripts/generate-dashboard.js
+      - name: Generate dashboard
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: node scripts/generate-dashboard.js
 
       - name: Commit dashboard
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-
           git add assets/dashboard.svg
-
           git diff --cached --quiet || git commit -m "Update dashboard"
 
       - name: Push changes
