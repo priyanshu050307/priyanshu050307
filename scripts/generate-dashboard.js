@@ -21,10 +21,11 @@ const REAL_FALLBACK_PROFILE = {
 };
 
 const REAL_FALLBACK_REPOS = [
+  { name: "Toyota-Stock-Price-Analysis", stargazers_count: 4, language: "Jupyter Notebook", updated_at: "2026-08-30", fork: false, archived: false },
   { name: "genhealth-2.0", stargazers_count: 14, language: "Python", updated_at: "2026-08-30", fork: false, archived: false },
   { name: "morphdesk-accessibility", stargazers_count: 19, language: "JavaScript", updated_at: "2026-08-29", fork: false, archived: false },
-  { name: "medical-prescription-ocr", stargazers_count: 8, language: "Python", updated_at: "2026-08-26", fork: false, archived: false },
-  { name: "syllabus-tracker-app", stargazers_count: 5, language: "TypeScript", updated_at: "2026-08-07", fork: false, archived: false }
+  { name: "QR-Generator", stargazers_count: 2, language: "HTML", updated_at: "2026-08-27", fork: false, archived: false },
+  { name: "medical-prescription-ocr", stargazers_count: 8, language: "Python", updated_at: "2026-08-26", fork: false, archived: false }
 ];
 
 async function githubRequest(url, options = {}) {
@@ -105,10 +106,11 @@ async function fetchLanguageStatistics(repositories) {
 
   if (totalBytes === 0) {
     return [
-      { language: "Python", bytes: 480000, percentage: 48.5 },
-      { language: "JavaScript", bytes: 290000, percentage: 29.3 },
-      { language: "TypeScript", bytes: 140000, percentage: 14.1 },
-      { language: "HTML", bytes: 80000, percentage: 8.1 }
+      { language: "Python", bytes: 425000, percentage: 42.5 },
+      { language: "Jupyter Notebook", bytes: 225000, percentage: 22.5 },
+      { language: "TypeScript", bytes: 150000, percentage: 15.0 },
+      { language: "JavaScript", bytes: 120000, percentage: 12.0 },
+      { language: "HTML", bytes: 80000, percentage: 8.0 }
     ];
   }
 
@@ -119,7 +121,7 @@ async function fetchLanguageStatistics(repositories) {
       percentage: (bytes / totalBytes) * 100
     }))
     .sort((a, b) => b.bytes - a.bytes)
-    .slice(0, 6);
+    .slice(0, 5);
 }
 
 async function fetchContributionsGraphQL() {
@@ -364,7 +366,7 @@ function escapeXML(value) {
     .replace(/'/g, "&apos;");
 }
 
-function shortName(name, maxLength = 27) {
+function shortRepoName(name, maxLength = 25) {
   if (name.length <= maxLength) return name;
   return `${name.slice(0, maxLength - 3)}...`;
 }
@@ -584,61 +586,65 @@ function buildContributionHeatmapWithSnake(calendar) {
 }
 
 function buildLanguagePanel(languages) {
-  if (languages.length === 0) {
+  if (!languages || languages.length === 0) {
     return `
-      <text
-        x="85"
-        y="745"
-        fill="#8b949e"
-        font-family="monospace"
-        font-size="14">
+      <text x="85" y="760" fill="#8b949e" font-family="monospace" font-size="13">
         No language data available
       </text>
     `;
   }
 
   let output = "";
-  const barWidth = 255;
+  const maxDisplay = 5;
+  const displayLangs = languages.slice(0, maxDisplay);
+  const barWidth = 200;
 
-  languages.forEach((item, index) => {
-    const y = 745 + index * 35;
-    const width = Math.max(5, (item.percentage / 100) * barWidth);
+  displayLangs.forEach((item, index) => {
+    const y = 746 + index * 34;
+    const width = Math.max(6, (item.percentage / 100) * barWidth);
     const color = languageColor(item.language);
 
     output += `
-      <text
-        x="85"
-        y="${y}"
-        fill="#f0f6fc"
-        font-family="monospace"
-        font-size="13">
-        ${escapeXML(item.language)}
-      </text>
+      <g>
+        <circle cx="90" cy="${y - 4}" r="4" fill="${color}"/>
+        
+        <text
+          x="102"
+          y="${y}"
+          fill="#e6edf3"
+          font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif"
+          font-size="13"
+          font-weight="600">
+          ${escapeXML(item.language)}
+        </text>
 
-      <rect
-        x="240"
-        y="${y - 12}"
-        width="${barWidth}"
-        height="10"
-        rx="5"
-        fill="#21262d"/>
+        <rect
+          x="245"
+          y="${y - 11}"
+          width="${barWidth}"
+          height="8"
+          rx="4"
+          fill="#21262d"/>
 
-      <rect
-        x="240"
-        y="${y - 12}"
-        width="${width}"
-        height="10"
-        rx="5"
-        fill="${color}"/>
+        <rect
+          x="245"
+          y="${y - 11}"
+          width="${width}"
+          height="8"
+          rx="4"
+          fill="${color}"/>
 
-      <text
-        x="510"
-        y="${y}"
-        fill="#8b949e"
-        font-family="monospace"
-        font-size="12">
-        ${item.percentage.toFixed(1)}%
-      </text>
+        <text
+          x="530"
+          y="${y}"
+          text-anchor="end"
+          fill="#8b949e"
+          font-family="monospace"
+          font-size="12"
+          font-weight="600">
+          ${item.percentage.toFixed(1)}%
+        </text>
+      </g>
     `;
   });
 
@@ -658,12 +664,7 @@ function buildRepositoryPanel(repositories) {
 
   if (selected.length === 0) {
     return `
-      <text
-        x="610"
-        y="745"
-        fill="#8b949e"
-        font-family="monospace"
-        font-size="14">
+      <text x="615" y="760" fill="#8b949e" font-family="monospace" font-size="13">
         No public repositories found.
       </text>
     `;
@@ -672,45 +673,65 @@ function buildRepositoryPanel(repositories) {
   let output = "";
 
   selected.forEach((repo, index) => {
-    const y = 745 + index * 52;
-    const repoName = shortName(repo.name);
-    const language = repo.language || "N/A";
+    const y = 746 + index * 42;
+    const name = shortRepoName(repo.name, 25);
+    const lang = repo.language || "Markdown";
+    const langColor = languageColor(lang);
+    const stars = repo.stargazers_count || 0;
 
     output += `
-      <text
-        x="610"
-        y="${y}"
-        fill="#58a6ff"
-        font-family="monospace"
-        font-size="14"
-        font-weight="700">
-        ${escapeXML(repoName)}
-      </text>
+      <g>
+        <!-- Repo Icon -->
+        <text x="612" y="${y}" fill="#58a6ff" font-family="monospace" font-size="13" font-weight="700">⟨/⟩</text>
 
-      <text
-        x="610"
-        y="${y + 21}"
-        fill="#8b949e"
-        font-family="monospace"
-        font-size="11">
-        ${escapeXML(language)} • ★ ${escapeXML(repo.stargazers_count)}
-      </text>
+        <!-- Repo Title -->
+        <text
+          x="636"
+          y="${y}"
+          fill="#58a6ff"
+          font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif"
+          font-size="13.5"
+          font-weight="600">
+          ${escapeXML(name)}
+        </text>
 
-      <text
-        x="955"
-        y="${y + 21}"
-        fill="#6e7681"
-        font-family="monospace"
-        font-size="10">
-        UPDATED
-      </text>
+        <!-- Metadata Line -->
+        <circle cx="640" cy="${y + 16}" r="3.5" fill="${langColor}"/>
+        <text
+          x="648"
+          y="${y + 19}"
+          fill="#8b949e"
+          font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif"
+          font-size="11">
+          ${escapeXML(lang)}
+        </text>
 
-      <line
-        x1="610"
-        y1="${y + 31}"
-        x2="1115"
-        y2="${y + 31}"
-        stroke="#21262d"/>
+        <text
+          x="740"
+          y="${y + 19}"
+          fill="#e3b341"
+          font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif"
+          font-size="11"
+          font-weight="600">
+          ★ ${stars}
+        </text>
+
+        <!-- Public Badge Pill -->
+        <rect x="1070" y="${y - 12}" width="48" height="18" rx="9" fill="#21262d"/>
+        <text
+          x="1094"
+          y="${y + 1}"
+          text-anchor="middle"
+          fill="#39d353"
+          font-family="monospace"
+          font-size="9.5"
+          font-weight="700">
+          PUBLIC
+        </text>
+
+        <!-- Dotted Separator -->
+        ${index < selected.length - 1 ? `<line x1="612" y1="${y + 26}" x2="1118" y2="${y + 26}" stroke="#21262d" stroke-dasharray="2,2"/>` : ""}
+      </g>
     `;
   });
 
@@ -791,7 +812,7 @@ function buildTypingHeader(x, y) {
         <text
           clip-path="url(#typewriterClip)"
           fill="#f0f6fc"
-          font-family="monospace"
+          font-family="system-ui, -apple-system, sans-serif"
           font-size="14"
           font-weight="600">
           CSE • DATA SCIENCE • MACHINE LEARNING • SOFTWARE
@@ -1045,7 +1066,7 @@ function buildDashboard(
       x="188"
       y="58"
       fill="#f0f6fc"
-      font-family="monospace"
+      font-family="system-ui, -apple-system, sans-serif"
       font-size="28"
       font-weight="700">
       ${escapeXML(profile.name || "PRIYANSHU.V")}
@@ -1199,15 +1220,17 @@ function buildDashboard(
     <line x1="58" y1="650" x2="1142" y2="650" stroke="#21262d"/>
 
     <!-- LANGUAGE PANEL -->
-    <rect x="58" y="675" width="505" height="240" rx="14" fill="#161b22" stroke="#30363d"/>
-    <text x="85" y="708" fill="#f0f6fc" font-family="monospace" font-size="16" font-weight="700">LANGUAGE ANALYTICS</text>
-    <text x="85" y="730" fill="#6e7681" font-family="monospace" font-size="10">AGGREGATED FROM REPOSITORY CODE</text>
+    <rect x="58" y="675" width="505" height="245" rx="16" fill="#161b22" stroke="#30363d"/>
+    <circle cx="85" cy="708" r="4.5" fill="#bc8cff" filter="url(#crtGlow)"/>
+    <text x="98" y="712" fill="#f0f6fc" font-family="system-ui, -apple-system, sans-serif" font-size="15" font-weight="700">LANGUAGE ANALYTICS</text>
+    <text x="98" y="728" fill="#6e7681" font-family="monospace" font-size="9.5">AGGR. CODE BY BYTE VOLUME</text>
     ${languagePanel}
 
     <!-- PROJECT HIGHLIGHTS PANEL -->
-    <rect x="588" y="675" width="554" height="240" rx="14" fill="#161b22" stroke="#30363d"/>
-    <text x="615" y="708" fill="#f0f6fc" font-family="monospace" font-size="16" font-weight="700">PROJECT HIGHLIGHTS</text>
-    <text x="615" y="730" fill="#6e7681" font-family="monospace" font-size="10">TOP PUBLIC REPOSITORIES</text>
+    <rect x="588" y="675" width="554" height="245" rx="16" fill="#161b22" stroke="#30363d"/>
+    <circle cx="615" cy="708" r="4.5" fill="#58a6ff" filter="url(#crtGlow)"/>
+    <text x="628" y="712" fill="#f0f6fc" font-family="system-ui, -apple-system, sans-serif" font-size="15" font-weight="700">PROJECT HIGHLIGHTS</text>
+    <text x="628" y="728" fill="#6e7681" font-family="monospace" font-size="9.5">TOP PUBLIC REPOSITORIES &amp; IMPACT</text>
     ${repositoryPanel}
   </g>
 
