@@ -21,8 +21,10 @@ jobs:
         with:
           node-version: 20
 
-      - name: Generate dashboard
-        run: node scripts/generate-dashboard.js
+     - name: Generate dashboard
+       env:
+         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+       run: node scripts/generate-dashboard.js
 
       - name: Commit dashboard
         run: |
